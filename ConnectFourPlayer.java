@@ -11,12 +11,13 @@ public class ConnectFourPlayer
 {
     private int numWins;
     private int numLosses;
-    private int numTies;
     private String name;
     
-    public ConnectFourPlayer(String name, String color)
+    public ConnectFourPlayer(String name)
     {
         this.name = name;
+        numWins = 0;
+        numLosses = 0;
     }
 
     public int getNumWins()
@@ -24,29 +25,9 @@ public class ConnectFourPlayer
         return numWins;
     }
 
-    public void addWin()
-    {
-        numWins++;
-    }
-
     public int getNumLosses()
     {
         return numLosses;
-    }
-
-    public void addLoss()
-    {
-        numLosses++;
-    }
-
-    public int getNumTies()
-    {
-        return numTies;
-    }
-
-    public void addTie()
-    {
-        numTies++;
     }
 
     public String getName()
@@ -54,10 +35,24 @@ public class ConnectFourPlayer
         return name;
     }
 
+    public void addWin()
+    {
+        numWins++;
+    }
+
+    public void addLoss()
+    {
+        numLosses++;
+    }
+
     public void clearScore()
     {
         numWins = 0;
         numLosses = 0;
-        numTies = 0;
+    }
+
+    public String toString()
+    {
+        return (name + ": " + numWins + "/" + numLosses);
     }
 }

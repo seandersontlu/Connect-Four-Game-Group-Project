@@ -4,6 +4,11 @@
 // 2-18-19
 //
 // This will create the frame for the Connect four game.
+/*
+    // Did not use object oriented design.
+    // No use of player or connect four objects.
+    // Missing code for ConnectFourGui
+*/
 
 import java.awt.*;
 import javax.swing.*;
