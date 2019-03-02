@@ -15,7 +15,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.event.*;
 
-public class ConnectFourFrame extends JPanel
+public class ConnectFourFrame extends JFrame
 {
     private String player1;
     private String player2;
@@ -27,11 +27,22 @@ public class ConnectFourFrame extends JPanel
     private JPanel buttonPanel;
     private JPanel numPanel;
     private JPanel titlePanel;
+    private JFrame frame;
 
     private ConnectFourGui connectFourPanel;
 
+    public static void main(String[] args)
+    {
+	    ConnectFourFrame window = new ConnectFourFrame();
+	    window.pack();
+	    window.setVisible(true);
+    }
+
     public ConnectFourFrame()
     {
+	frame = new JFrame("Connect Four");
+
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Making the button
 
         restart = new JButton("New Game");
