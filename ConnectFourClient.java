@@ -10,7 +10,8 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
     
     private DataInputStream fromServer;
     private DataOutputStream toServer;
-    private int playerName;
+    private int playerNum;
+    private String playerName;
     private boolean waiting;
     private boolean continuePlaying;
     
@@ -31,9 +32,10 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
             fromServer = new DataInputStream (server.getInputStream());
             toServer = new DataOutputStream (server.getOutputStream());
             
-            playerName = fromServer.readString();
+            playerName = fromServer.readUTF();
+            playerNum = fromServer.readInt();
             setChanged();
-            notifyObservers ("Player " + playerName);
+            notifyObservers (playerName + " is player " + playerNum);
 
             fromServer.readInt();
 
@@ -45,11 +47,9 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
                     takeTurn();
                     if (!continuePlaying)
                         break;
-                    recieveInformationFromServer();
                 }
                 else
                 {
-                    recieveInformationFromServer();
                     if (!continuePlaying)
                         break;
                     waitForPlayerAction();
@@ -78,12 +78,31 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
         waiting = false;
     }
 
-    private void takeTurn()
+    private void takeTurn() throws IOException
     {
-        toServer.writeInt(MAKE_MOVE);
-    }
+        int status = fromServer.readInt();
+        System.out.println(status);
+        
+        if (status == PLAYER1_WON)
+        {
+            System.out.println(playerName + " won!!");
+            setChanged();
+            notifyObservers (new String("END OF GAME: " + playerName + " won"));
+            continuePlaying = false;
+        }
+        else if (status == PLAYER2_WON)
+        {
+            System.out.println(playerName + " won!!");
+            setChanged();
+            notifyObservers (new String("END OF GAME: " + playerName + " won"));
+            continuePlaying = false;
+        }
+        else
+        {
+            int drop = fromServer.readInt();
+            setChanged();
+            notifyObservers (drop); // OR notifyObservers(new Integer (drop))
 
-    private void recieveInformationFromServer() throws IOException
-    {
+        }
     }
 }
