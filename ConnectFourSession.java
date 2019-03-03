@@ -30,6 +30,7 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
 			toPlayer1.writeInt(START);
 			toPlayer2.writeInt(START);
 
+
 		}
 	}
 }

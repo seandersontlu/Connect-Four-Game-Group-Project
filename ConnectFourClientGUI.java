@@ -14,11 +14,15 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.event.*;
+import java.util.Observer;
+import java.util.Observable;
 
-public class ConnectFourFrame extends JFrame
+public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants, Observer
 {
     private String player1;
     private String player2;
+    private JLabel playerOne;
+    private JLabel playerTwo;
     private JLabel title;
     private JButton start;
     private JButton restart;
@@ -30,15 +34,16 @@ public class ConnectFourFrame extends JFrame
     private JFrame frame;
 
     private ConnectFourGui connectFourPanel;
+    private ConnectFourClient client;
 
     public static void main(String[] args)
     {
-	    ConnectFourFrame window = new ConnectFourFrame();
+	    ConnectFourClientGUI window = new ConnectFourClientGUI();
 	    window.pack();
 	    window.setVisible(true);
     }
 
-    public ConnectFourFrame()
+    public ConnectFourClientGUI()
     {
 	frame = new JFrame("Connect Four");
 
@@ -62,15 +67,15 @@ public class ConnectFourFrame extends JFrame
         Panel p2 = new Panel();
         p2.setLayout(new BorderLayout());
 
-        JLabel playerOne = new JLabel("Player 1:");
+        playerOne = new JLabel("Player 1:");
         p2.add(playerOne, BorderLayout.SOUTH);
-        JLabel playerTwo = new JLabel("Player 2:");
+        playerTwo = new JLabel("Player 2:");
         p2.add(playerTwo, BorderLayout.SOUTH);
 
         enterPlayer();
 
         playerOne.setText(player1);
-        playerTwo.setText(player2);
+        playerTwo.setText("WAITING FOR PLAYER...");
 
         JPanel names = new JPanel();
         JLabel name1 = new JLabel("Player 1 (Yellow):");
@@ -114,12 +119,25 @@ public class ConnectFourFrame extends JFrame
         this.add(connectFourPanel, BorderLayout.CENTER);
         this.add(names, BorderLayout.SOUTH);
         this.setPreferredSize(new Dimension(500,500));
+
+	client = new ConnectFourClient();
+	client.addObserver(this);
+    }
+
+    public void update(Observable o, Object obj)
+    {
+	    if (obj instanceof String)
+	    {
+		    String text = (String) obj;
+		    playerTwo.setText(text);
+	    }
     }
     
     public void enterPlayer()
     {
-        player1 = JOptionPane.showInputDialog("Player 1 enter your name: ");
-        player2 = JOptionPane.showInputDialog("Player 2 enter your name: ");
+        player1 = JOptionPane.showInputDialog("Enter your name: ");
+        //player1 = JOptionPane.showInputDialog("Player 1 enter your name: ");
+        //player2 = JOptionPane.showInputDialog("Player 2 enter your name: ");
     }
 
     private class ButtonListener implements ActionListener
@@ -147,7 +165,7 @@ public class ConnectFourFrame extends JFrame
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        ConnectFourFrame game = new ConnectFourFrame();
+        ConnectFourClientGUI game = new ConnectFourClientGUI();
         frame.getContentPane().add(game);
 
         frame.pack();

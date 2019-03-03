@@ -37,6 +37,7 @@ public class ConnectFourServer implements ConnectFourConstants
 					= new DataOutPutStream(player2.getOutPutStream());
 				player2Stream.writeInt(PLAYER_TWO);
 				
+				// Create a session
 				ConnectFourSession task = new ConnectFourSession(player1, player2);
 				new Thread(task).start();
 
