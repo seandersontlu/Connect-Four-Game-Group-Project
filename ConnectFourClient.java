@@ -41,7 +41,7 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
 
             do
             {
-                if (playerNum == PLAYER1)
+                if (playerNum == PLAYER_ONE)
                 {
                     waitForPlayerAction();
                     takeTurn();
