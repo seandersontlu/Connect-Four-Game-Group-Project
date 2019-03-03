@@ -13,6 +13,7 @@ public class ConnectFourServer implements ConnectFourConstants
 
 	public ConnectFourServer()
 	{
+
 		try
 		{
 			ServerSocket serverSocket = new ServerSocket(PORT);
@@ -24,17 +25,17 @@ public class ConnectFourServer implements ConnectFourConstants
 			{
 				// Listen for player1
 				Socket player1 = serverSocket.accept();
-				System.out.println("Player 1 has joined session " + seesionNum);
+				System.out.println("Player 1 has joined session " + sessionNum);
 
-				DataOutputStream player1Stream
-					= new DataOutPutStream(player1.getOutputStream());
+				DataOutputStream player1Stream = 
+					new DataOutputStream(player1.getOutputStream());
 				player1Stream.writeInt(PLAYER_ONE);
 
 				// Listen for player2
 				Socket player2 = serverSocket.accept();
-				System.out.println("Player 2 has joined session " + seesionNum);
-				DataOutputStream player2Stream
-					= new DataOutPutStream(player2.getOutPutStream());
+				System.out.println("Player 2 has joined session " + sessionNum);
+				DataOutputStream player2Stream = 
+					new DataOutputStream(player2.getOutputStream());
 				player2Stream.writeInt(PLAYER_TWO);
 				
 				// Create a session
@@ -44,16 +45,11 @@ public class ConnectFourServer implements ConnectFourConstants
 				sessionNum++;
 			}
 		}
-
 		catch(IOException e)
 		{
 			e.printStackTrace();
 		}
 	}
 }
-
-
-
-
 
 
