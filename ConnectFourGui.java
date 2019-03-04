@@ -8,7 +8,8 @@
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
-
+import java.util.Observable;
+import java.util.Observer;
 
 enum Diagonal 
 {
@@ -90,7 +91,7 @@ public class ConnectFourGui extends JPanel
             }
         }
     }
-
+    
     public void draw(int col, int row)
     {
         if (currentPlayer == PLAYER_ONE)
@@ -102,10 +103,21 @@ public class ConnectFourGui extends JPanel
             slot[row][col].setIcon(PLAYER2_CHIP);
         }
     }
-
+    
     public boolean isFull(int col)
     {
         return gameBoard[0][col] != EMPTY;
+    }
+    
+    public boolean isfullBoard()
+    {
+        boolean full = true;
+        for (int i = 0; i < ROWS; i++)
+            for (int j = 0; j < COLUMNS; j++)
+                if (gameBoard[i][j] == EMPTY)
+                    full = false;
+
+        return full;
     }
 
     public boolean isWinner()
@@ -116,7 +128,7 @@ public class ConnectFourGui extends JPanel
     }
 
     // Checking vertical
-    public boolean verticalWin()
+    private boolean verticalWin()
     {
         boolean result = false;
     
@@ -139,7 +151,7 @@ public class ConnectFourGui extends JPanel
     }
 
     // Checking horizontal
-    public boolean horizontalWin()
+    private boolean horizontalWin()
     {
         boolean result = false;
 
@@ -158,7 +170,7 @@ public class ConnectFourGui extends JPanel
         }
         return result;
     }
-    public boolean diagonalWin(Diagonal direction)
+    private boolean diagonalWin(Diagonal direction)
     {
         boolean result = false;
 

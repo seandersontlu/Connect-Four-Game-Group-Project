@@ -30,13 +30,15 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
 			toPlayer1.writeInt(START);
 			toPlayer2.writeInt(START);
 
-            ConnectFourFrame myGui = new ConnectFourFrame();
+            //ConnectFourBoard board1 = new ConnectFourBoard();
+            ConnectFourGui myGui = new ConnectFourGui();
          
             while (true)
             {
                 // Player 1 makes a move
                 fromPlayer1.readInt();
-                
+                int col = fromPlayer1.readInt();
+
                 if (myGui.isWinner())
                 {
                     if (myGui.getCurrentPlayer() == PLAYER_ONE)
@@ -52,7 +54,7 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
                     sendMove(toPlayer2, col);
                     break;
                 }
-                else if (myGui.isFull())
+                else if (myGui.isfullBoard())
                 {
                     toPlayer1.writeInt(MAX_MOVES);
                     toPlayer2.writeInt(MAX_MOVES);
