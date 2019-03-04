@@ -5,6 +5,11 @@
 // 
 // This program runs the game of connect four.
 
+/**
+ * This class plays the game, Connect Four
+ * @author Sarah, Adriran, Scott, Montrel
+ */
+
 public class ConnectFourGame
 {
     public static final int MAX_TURNS = 42;
@@ -17,6 +22,8 @@ public class ConnectFourGame
     Player player2;
     ConnectFourBoard board;
 
+    /** Initializes the game
+     */
     public ConnectFourGame()
     {
         totalMovesPlayed = 0;
@@ -26,33 +33,54 @@ public class ConnectFourGame
         currentPlayer = player1;
     }
 
-    private Player getPlayer1()
+    /** Returns player1
+     */
+    public Player getPlayer1()
     {
         return player1;
     }
+
+    /** Returns player2
+     */
     public Player getPlayer2()
     {
         return player2;
     }
+
+    /** Returns the current player
+     */
     public Player getCurrentPlayer()
     {
         return currentPlayer;
     }
+
+    /** Returns the board
+     */
     public ConnectFourBoard getBoard()
     {
         return board;
     }
     
+    /**
+     * @param name1  player 1's name
+     * Sets player one's name and chip color
+     */
     public void setPlayer1Name (String name1)
     {
         player1 = new Player (name1, ConnectFourBoard.YELLOW);
     }
 
+    /**
+     * @param name2 player 2's name
+     * Sets player two's name and chip color
+     */
     public void setPlayer2Name (String name2)
     {
         player2 = new Player (name2, ConnectFourBoard.RED);
     }
 
+    /** Plays Connect Four
+     */
     public void playGame(int col)
     {
         while (true && totalMovesPlayed < MAX_TURNS)
@@ -73,6 +101,10 @@ public class ConnectFourGame
         }
     }
 
+    /**
+     * @param currentPlayer the current player
+     * Switches turns by changing player assigned to currentPlayer
+     */
     public Player switchPlayer(Player currentPlayer)
     {
         if (currentPlayer == player1)
@@ -81,6 +113,8 @@ public class ConnectFourGame
             return player1;
     }
 
+    /** Resets the game
+    */
     public void resetGame()
     {
         name1 = "";

@@ -13,6 +13,10 @@ enum Diagonal
     LEFT, RIGHT;
 }
 
+/**
+ * This class represents a connect four board
+ * @author Sarah, Adrian, Scott, Montrel
+ */
 public class ConnectFourBoard
 {
     public static final int EMPTY = 0;
@@ -23,18 +27,25 @@ public class ConnectFourBoard
     public static final int ROWS = 6;
     private int[][] gameBoard;
 
+    /** Creates the connect four board
+     */
     public ConnectFourBoard()
     {
-        // Will create board to play connect four with.
         gameBoard = new int[ROWS][COLUMNS];
         initializeBoard();
     }
     
+    /** Returns the board
+     */
     public int[][] getGameBoard()
     {
         return gameBoard;
     }
 
+    /**
+     * @param col   the column number
+     * Returns the empty row for the given column
+     */
     public int getRowNum (int col)
     {
         int rowNum = 0;
@@ -44,17 +55,28 @@ public class ConnectFourBoard
         return rowNum;
     }
     
+    /**
+     * @param col   the column number
+     * Checks if a column is full
+     */
     public boolean isColumnFull(int col)
     {
         return gameBoard[0][col] != EMPTY;
     }
 
+    /** Initializes the board with the EMPTY constant
+     */
     private void initializeBoard()
     {
         for (int row = 0; row < ROWS; row++)
             Arrays.fill(gameBoard[row], EMPTY);
     }
 
+    /**
+     * @param col   the column number
+     * @param color the integer value for the chip color
+     * adds chip to the given column
+     */
     public void drop(int col, int color)
     {
         for (int row = ROWS - 1; row >= 0; row--)
@@ -62,11 +84,15 @@ public class ConnectFourBoard
                 gameBoard[row][col] = color;
     }
     
+    /** Resets the board
+     */
     public void resetBoard()
     {
         initializeBoard();
     }
 
+    /** Checks for vertical, horizontal, left diagonal, and right diagonal wins
+     */
     public boolean checkWinner()
     {
         return (verticalWin() || horizontalWin() 
@@ -74,7 +100,8 @@ public class ConnectFourBoard
             || diagonalWin(Diagonal.RIGHT));
     }
 
-    // Checking vertical
+    /** Checks for a vertical win
+     */
     private boolean verticalWin()
     {
         boolean result = false;
@@ -95,7 +122,8 @@ public class ConnectFourBoard
         return result;
     }
 
-    // Checking horizontal
+    /** Checks for a horizontal win
+     */
     private boolean horizontalWin()
     {
         boolean result = false;
@@ -114,6 +142,8 @@ public class ConnectFourBoard
         return result;
     }
 
+    /** Checks for a diagonal win from left and right
+     */
     private boolean diagonalWin(Diagonal direction)
     {
         boolean result = false;
