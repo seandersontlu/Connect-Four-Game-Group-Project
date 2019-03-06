@@ -18,21 +18,22 @@
 
 public class ConnectFourPlayer
 {
+    public static final int PLAYER1_NUM = 1;
+    public static final int PLAYER2_NUM = 2;
+
+    private String name;
     private int numWins;
     private int numLosses;
-    private int numTies;
-    private int color;
-    private String name;
     
     /**
      * @param name  players name
-     * @param color integer value for the asignned chips color
      * Creates the player
      */
-    public ConnectFourPlayer (String name, int color)
+    public ConnectFourPlayer (String name)
     {
         this.name = name;
-        this.color = color;
+        numWins = 0;
+        numLosses = 0;
     }
 
     /** Returns the player's name
@@ -40,13 +41,6 @@ public class ConnectFourPlayer
     public String getName()
     {
         return name;
-    }
-
-    /** Returns the player's assigned color
-     */
-    public int getColor()
-    {
-        return color;
     }
 
     /** Returns the number of wins
@@ -63,13 +57,6 @@ public class ConnectFourPlayer
         return numLosses;
     }
     
-    /** Returns the number of ties
-     */
-    public int getNumTies()
-    {
-        return numTies;
-    }
-    
     /** Increments the number of wins
      */
     public void addWin()
@@ -84,19 +71,11 @@ public class ConnectFourPlayer
         numLosses++;
     }
 
-    /** Increments the number of ties
-     */
-    public void addTie()
-    {
-        numTies++;
-    }
-
-    /** Resets the number of wins, losses, and ties to 0
+    /** Resets the players' stats 
      */
     public void clearScore()
     {
         numWins = 0;
         numLosses = 0;
-        numTies = 0;
     }
 }

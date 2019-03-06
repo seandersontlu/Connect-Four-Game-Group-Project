@@ -68,20 +68,20 @@ public class ConnectFourGame
     
     /**
      * @param name1  player 1's name
-     * Sets player one's name and chip color
+     * Sets player one's name
      */
     public void setPlayer1Name (String name1)
     {
-        player1 = new ConnectFourPlayer (name1, ConnectFourBoard.YELLOW);
+        player1 = new ConnectFourPlayer (name1);
     }
 
     /**
      * @param name2 player 2's name
-     * Sets player two's name and chip color
+     * Sets player two's name
      */
     public void setPlayer2Name (String name2)
     {
-        player2 = new ConnectFourPlayer (name2, ConnectFourBoard.RED);
+        player2 = new ConnectFourPlayer (name2);
     }
 
     /** Plays Connect Four
@@ -90,9 +90,14 @@ public class ConnectFourGame
     {
         while (true && totalMovesPlayed < MAX_TURNS)
         {
-            if (!board.isColumnFull(col))
-                board.drop(col, currentPlayer.getColor());
-            totalMovesPlayed++;
+            if (!board.isColumnFull(col)) 
+            {
+                if (currentPlayer == player1)
+                    board.drop(col, ConnectFourBoard.YELLOW);
+                else
+                    board.drop(col, ConnectFourBoard.RED);
+                totalMovesPlayed++;
+            }
             
             if (board.checkWinner())
             {
