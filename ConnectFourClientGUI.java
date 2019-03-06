@@ -1,6 +1,6 @@
 // Coy T, Jordyn M, David G
 // CSCI 434 Project #1, Iteration #2
-// ConnectFourFrame.java
+// ConnectFourClientGUI.java
 // 2-18-19
 //
 // This will create the frame for the Connect four game.
@@ -14,15 +14,14 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.event.*;
-import java.util.Observer;
 import java.util.Observable;
+import java.util.Observer;
 
 public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants, Observer
 {
+    public static final String server = "localhost";
     private String player1;
     private String player2;
-    private JLabel playerOne;
-    private JLabel playerTwo;
     private JLabel title;
     private JButton start;
     private JButton restart;
@@ -32,9 +31,11 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
     private JPanel numPanel;
     private JPanel titlePanel;
     private JFrame frame;
-
-    private ConnectFourGui connectFourPanel;
+    
+    private JLabel infoLabel;
     private ConnectFourClient client;
+    private ConnectFourGui model;
+    private boolean waitingForPlayer1;
 
     public static void main(String[] args)
     {
@@ -45,16 +46,17 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
 
     public ConnectFourClientGUI()
     {
-	frame = new JFrame("Connect Four");
+	    frame = new JFrame("Connect Four");
 
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         // Making the button
 
         restart = new JButton("New Game");
         restart.addActionListener(new ButtonListener());
         quit = new JButton("Quit");
         quit.addActionListener(new ButtonListener());
-
+        
         num = new JButton[8];
         for (int i = 1; i < num.length; i++)
         {
@@ -66,16 +68,18 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
         
         Panel p2 = new Panel();
         p2.setLayout(new BorderLayout());
-
-        playerOne = new JLabel("Player 1:");
+        
+        infoLabel = new JLabel(" ");
+        p2.add(infoLabel, BorderLayout.SOUTH);
+        JLabel playerOne = new JLabel("Player 1:");
         p2.add(playerOne, BorderLayout.SOUTH);
-        playerTwo = new JLabel("Player 2:");
+        JLabel playerTwo = new JLabel("Player 2:");
         p2.add(playerTwo, BorderLayout.SOUTH);
 
         enterPlayer();
 
         playerOne.setText(player1);
-        playerTwo.setText("WAITING FOR PLAYER...");
+        playerTwo.setText(player2);
 
         JPanel names = new JPanel();
         JLabel name1 = new JLabel("Player 1 (Yellow):");
@@ -98,7 +102,7 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
         numPanel = new JPanel();
         numPanel.setBackground(Color.WHITE);
 
-        connectFourPanel = new ConnectFourGui();
+        model = new ConnectFourGui();
 
         // Add components to the panel
 
@@ -116,27 +120,44 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
         topPanel.add(titlePanel);
         setLayout(new BorderLayout());
         this.add(topPanel, BorderLayout.NORTH);
-        this.add(connectFourPanel, BorderLayout.CENTER);
+        this.add(model, BorderLayout.CENTER);
         this.add(names, BorderLayout.SOUTH);
         this.setPreferredSize(new Dimension(500,500));
-
-	client = new ConnectFourClient();
-	client.addObserver(this);
+        
+        waitingForPlayer1 = true;
+        client = new ConnectFourClient();
+        client.addObserver(this);
     }
+
 
     public void update(Observable o, Object obj)
     {
-	    if (obj instanceof String)
-	    {
-		    String text = (String) obj;
-		    playerTwo.setText(text);
-	    }
+        if (obj instanceof String)
+        {
+            String text = (String) obj;
+            if (text.contains("won"));
+            {
+                infoLabel.setText(text);
+                for (int i = 0; i < num.length; i++)
+                    num[i].setEnabled(false);
+            }
+        }
+        else if (obj instanceof Integer)
+        {
+            int col = (Integer) obj;
+
+            if (waitingForPlayer1)
+                infoLabel.setText("It is player 1's turn.");
+            else
+                infoLabel.setText("It is player 2's turn.");
+
+            model.drop(col);
+        }
     }
-    
+
     public void enterPlayer()
     {
         player1 = JOptionPane.showInputDialog("Enter your name: ");
-        //player1 = JOptionPane.showInputDialog("Player 1 enter your name: ");
         //player2 = JOptionPane.showInputDialog("Player 2 enter your name: ");
     }
 
@@ -152,9 +173,11 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
             for (int i = 1; i < num.length; i++)
             {
                 if (event.getSource() == num[i])
-                    pushNum(i);
+                {
+                    //pushNum(i);
+                    client.readyToDropChip();
+                }
             }
-        }
     }
 
     public void pushRestart()
@@ -175,15 +198,17 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
 
     public void pushNum(int col)
     {
-        if (connectFourPanel.isFull(col - 1))
+        if (model.isFull(col - 1))
             JOptionPane.showMessageDialog(null, "Column is full, choose another");
         else
         {
-            connectFourPanel.drop(col-1);
-            if (connectFourPanel.isWinner())
-                JOptionPane.showMessageDialog(null, "Player " + connectFourPanel.getCurrentPlayer() + " has won!");
-            connectFourPanel.changePlayer();
-        }
-    }
+            model.drop(col-1);
+            if (model.isWinner())
+                JOptionPane.showMessageDialog(null, "Player " + model.getCurrentPlayer() + " has won!");
+                model.changePlayer();
+            }
+
+        }        
+    }  
 }
 
