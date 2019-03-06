@@ -1,7 +1,22 @@
+// *********************************
+// *******COMPLETED?????************
+// *********************************
+//
+// Adrian, Sarah, Montrell, Scott
+// CSCI 434 Project 1. iteration 3
+// 3/6/2019
+// ConnectFourServer.java
+// 
+// This is the server class used for Connect Four.
+
+/**
+ * This class sets up the server that allows the client 
+ * to play connect four
+ * @author Sarah, Adriran, Scott, Montrel
+ */
 
 import java.io.*;
 import java.net.*;
-
 
 public class ConnectFourServer implements ConnectFourConstants
 {
@@ -9,11 +24,14 @@ public class ConnectFourServer implements ConnectFourConstants
 	{
 		new ConnectFourServer();
 	}
-
-
+    
+    /** 
+     * Initializes the sockets, then listens/waits for the clients, player 1
+     * and player 2. Once player 1 and player 2 are connected to the server, 
+     * a session is created that let's them play the game.
+     */
 	public ConnectFourServer()
 	{
-
 		try
 		{
 			ServerSocket serverSocket = new ServerSocket(PORT);
