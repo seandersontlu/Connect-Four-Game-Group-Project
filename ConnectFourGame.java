@@ -17,9 +17,9 @@ public class ConnectFourGame
     String name1 = "";
     String name2 = "";
     int totalMovesPlayed;
-    Player currentPlayer;
-    Player player1;
-    Player player2;
+    ConnectFourPlayer currentPlayer;
+    ConnectFourPlayer player1;
+    ConnectFourPlayer player2;
     ConnectFourBoard board;
 
     /** Initializes the game
@@ -35,21 +35,21 @@ public class ConnectFourGame
 
     /** Returns player1
      */
-    public Player getPlayer1()
+    public ConnectFourPlayer getPlayer1()
     {
         return player1;
     }
 
     /** Returns player2
      */
-    public Player getPlayer2()
+    public ConnectFourPlayer getPlayer2()
     {
         return player2;
     }
 
     /** Returns the current player
      */
-    public Player getCurrentPlayer()
+    public ConnectFourPlayer getCurrentPlayer()
     {
         return currentPlayer;
     }
@@ -67,7 +67,7 @@ public class ConnectFourGame
      */
     public void setPlayer1Name (String name1)
     {
-        player1 = new Player (name1, ConnectFourBoard.YELLOW);
+        player1 = new ConnectFourPlayer (name1, ConnectFourBoard.YELLOW);
     }
 
     /**
@@ -76,7 +76,7 @@ public class ConnectFourGame
      */
     public void setPlayer2Name (String name2)
     {
-        player2 = new Player (name2, ConnectFourBoard.RED);
+        player2 = new ConnectFourPlayer (name2, ConnectFourBoard.RED);
     }
 
     /** Plays Connect Four
@@ -105,7 +105,7 @@ public class ConnectFourGame
      * @param currentPlayer the current player
      * Switches turns by changing player assigned to currentPlayer
      */
-    public Player switchPlayer(Player currentPlayer)
+    public ConnectFourPlayer switchPlayer(ConnectFourPlayer currentPlayer)
     {
         if (currentPlayer == player1)
             return player2;
