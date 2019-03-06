@@ -1,9 +1,22 @@
+
+// *********************************
+// ************COMPLETED************
+// *********************************
+//
 // Adrian, Sarah, Montrell, Scott
 // CSCI 434 Project 1
 // 2/27/19
 // ConnectFourConstants.java
 // 
 // This class is for the constants used for Connect Four.
+
+/**
+ * This class initializes the constants for the Connect Four's client-server
+ * classes (ConnectFourClient, ConnectFourClientGui, ConnectFourServer, and
+ * ConnectFourSession)
+ * @author Jordyn Martin, Coy Tutt, David Glenewinkel II
+ * @author Sarah, Adriran, Scott, Montrel
+ */
 
 public interface ConnectFourConstants
 {

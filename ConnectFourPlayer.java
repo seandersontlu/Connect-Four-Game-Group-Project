@@ -1,14 +1,18 @@
-// Jordyn Martin, Coy Tutt, David Glenewinkel II
-// CSCI 434 Project #1, Iteration #0.5
-// ConnectFourPlayer.java
-// 2/08/2019
+// *********************************
+// ************COMPLETED************
+// *********************************
 //
-// This is the skeletal class method that creates the players and keeps track
-// of wins, losses, ties for the game
-// connect four.
+// Sarah, Adrien, Montrel, Scott
+// CSCI 434 Project #1, Iteration #3
+// ConnectFourPlayer.java
+// 3/06/2019
+//
+// This class creates the players and keeps track
+// of wins, losses, ties for the game connect four.
 
 /**
  * This  class represents the player
+ * @author Jordyn Martin, Coy Tutt, David Glenewinkel II
  * @author  Sarah, Adrian, Scott, and Montrel
  */
 

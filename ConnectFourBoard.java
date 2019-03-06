@@ -1,7 +1,11 @@
-// Jordyn Martin, Coy Tutt, David Glenewinkel
-// CSCI 434 Project #1, Iteration #1 
+// *********************************
+// ************COMPLETED************
+// *********************************
+//
+// Sarah, Adrien, Montrel, Scott
+// CSCI 434 Project #1, Iteration #3 
 // ConnectFourBoard.java
-// 2/08/2019
+// 3/06/2019
 //
 // This is the class method that creates the board for the game
 // connect four.
@@ -15,6 +19,7 @@ enum Diagonal
 
 /**
  * This class represents a connect four board
+ * @author Jordyn Martin, Coy Tutt, David Glenewinkel II
  * @author Sarah, Adrian, Scott, Montrel
  */
 public class ConnectFourBoard

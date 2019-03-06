@@ -1,12 +1,17 @@
-// Jordyn M, Coy T, David G
-// CSCI 434 Project #1, Iteration #1
+// *********************************
+// ************COMPLETED************
+// *********************************
+//
+// Sarah, Adrien, Montrel, Scott
+// CSCI 434 Project #1, Iteration #3
 // ConnectFourGame.java
-// 2-9-19
+// 3-6-19
 // 
 // This program runs the game of connect four.
 
 /**
  * This class plays the game, Connect Four
+ * @author Jordyn Martin, Coy Tutt, David Glenewinkel II
  * @author Sarah, Adriran, Scott, Montrel
  */
 
