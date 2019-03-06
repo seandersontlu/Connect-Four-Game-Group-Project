@@ -17,8 +17,9 @@ import java.awt.event.*;
 import java.util.Observable;
 import java.util.Observer;
 
-public class ConnectFourFrame extends JFrame
+public class ConnectFourFrame extends JFrame implements ConnectFourConstants, Observer
 {
+    public static final String server = "localhost";
     private String player1;
     private String player2;
     private JLabel title;
@@ -33,7 +34,7 @@ public class ConnectFourFrame extends JFrame
     
     private JLabel infoLabel;
     private ConnectFourClient client;
-    private ConnectFourGui connectFourPanel;
+    private ConnectFourGui model;
     private boolean waitingForPlayer1;
 
     public static void main(String[] args)
@@ -49,7 +50,6 @@ public class ConnectFourFrame extends JFrame
 
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        client = new ConnectFourClient();
         // Making the button
 
         restart = new JButton("New Game");
@@ -102,7 +102,7 @@ public class ConnectFourFrame extends JFrame
         numPanel = new JPanel();
         numPanel.setBackground(Color.WHITE);
 
-        connectFourPanel = new ConnectFourGui();
+        model = new ConnectFourGui();
 
         // Add components to the panel
 
@@ -120,15 +120,45 @@ public class ConnectFourFrame extends JFrame
         topPanel.add(titlePanel);
         setLayout(new BorderLayout());
         this.add(topPanel, BorderLayout.NORTH);
-        this.add(connectFourPanel, BorderLayout.CENTER);
+        this.add(model, BorderLayout.CENTER);
         this.add(names, BorderLayout.SOUTH);
         this.setPreferredSize(new Dimension(500,500));
+        
+        waitingForPlayer1 = true;
+        client = new ConnectFourClient();
+        client.addObserver(this);
     }
-    
+
+
+    public void update(Observable o, Object obj)
+    {
+        if (obj instanceof String)
+        {
+            String text = (String) obj;
+            if (text.contains("won"));
+            {
+                infoLabel.setText(text);
+                for (int i = 0; i < num.length; i++)
+                    num[i].setEnabled(false);
+            }
+        }
+        else if (obj instanceof Integer)
+        {
+            int col = (Integer) obj;
+
+            if (waitingForPlayer1)
+                infoLabel.setText("It is player 1's turn.");
+            else
+                infoLabel.setText("It is player 2's turn.");
+
+            model.drop(col);
+        }
+    }
+
     public void enterPlayer()
     {
-        player1 = JOptionPane.showInputDialog("Player 1 enter your name: ");
-        player2 = JOptionPane.showInputDialog("Player 2 enter your name: ");
+        player1 = JOptionPane.showInputDialog("Enter your name: ");
+        //player2 = JOptionPane.showInputDialog("Player 2 enter your name: ");
     }
 
     private class ButtonListener implements ActionListener
@@ -144,7 +174,7 @@ public class ConnectFourFrame extends JFrame
             {
                 if (event.getSource() == num[i])
                 {
-              //      pushNum(i);
+                    //pushNum(i);
                     client.readyToDropChip();
                 }
             }
@@ -166,31 +196,16 @@ public class ConnectFourFrame extends JFrame
 
     }
 
-    public void update(Observable o, Object obj)
-    {
-        if (obj instanceof Integer)
-        {
-            int col = (Integer) obj;
-
-            if (waitingForPlayer1)
-                infoLabel.setText("It is player 1's turn.");
-            else
-                infoLabel.setText("It is player 2's turn.");
-
-            connectFourPanel.drop(col - 1);
-        }
-    }
-
     public void pushNum(int col)
     {
-        if (connectFourPanel.isFull(col - 1))
+        if (model.isFull(col - 1))
             JOptionPane.showMessageDialog(null, "Column is full, choose another");
         else
         {
-            connectFourPanel.drop(col-1);
-            if (connectFourPanel.isWinner())
-                JOptionPane.showMessageDialog(null, "Player " + connectFourPanel.getCurrentPlayer() + " has won!");
-                connectFourPanel.changePlayer();
+            model.drop(col-1);
+            if (model.isWinner())
+                JOptionPane.showMessageDialog(null, "Player " + model.getCurrentPlayer() + " has won!");
+                model.changePlayer();
             }
 
         }        

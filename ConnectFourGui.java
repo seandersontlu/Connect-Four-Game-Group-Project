@@ -81,7 +81,7 @@ public class ConnectFourGui extends JPanel
 
     public void drop(int col)
     {
-        for (int row = ROWS - 1; row > -1; row--)
+        for (int row = ROWS; row > 0; row--)
         {
             if (gameBoard[row][col] == EMPTY)
             {

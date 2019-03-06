@@ -1,7 +1,7 @@
 // ConnectFourClient.java
 
 import java.io.*;
-import java.net.Socket;
+import java.net.*;
 import java.util.Observable;
 
 public class ConnectFourClient extends Observable implements ConnectFourConstants, Runnable
@@ -47,9 +47,11 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
                     takeTurn();
                     if (!continuePlaying)
                         break;
+                    receiveInformationFromServer();
                 }
                 else
                 {
+                    receiveInformationFromServer();
                     if (!continuePlaying)
                         break;
                     waitForPlayerAction();
@@ -68,6 +70,7 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
 
     private void waitForPlayerAction() throws InterruptedException
     {
+        waiting = true;
         while (waiting)
             Thread.sleep(100);
         waiting = true;
@@ -80,6 +83,11 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
 
     private void takeTurn() throws IOException
     {
+        toServer.writeInt(MAKE_MOVE);
+        int colNum = fromServer.readInt();
+        setChanged();
+        notifyObservers(new Integer(colNum));
+
         int status = fromServer.readInt();
         System.out.println(status);
         
@@ -97,12 +105,46 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
             notifyObservers (new String("END OF GAME: " + playerName + " won"));
             continuePlaying = false;
         }
+    }
+
+    private void receiveInformationFromServer() throws IOException
+    {
+        int status = fromServer.readInt();
+
+        if (status == PLAYER1_WON)
+        {
+            if (playerNum == 2)
+            {
+                int colNum = fromServer.readInt();
+                setChanged();
+                notifyObservers(new Integer(colNum));
+
+            }
+            System.out.println("Player 1 won!");
+            setChanged();
+            notifyObservers(new String("END OF GAME: Player 1 won!"));
+            continuePlaying = false;
+        }
+        else if (status == PLAYER2_WON)
+        {
+            if (playerNum == 1)
+            {
+                int colNum = fromServer.readInt();
+                setChanged();
+                notifyObservers(new Integer(colNum));
+
+            }
+            System.out.println("Player 2 won!");
+            setChanged();
+            notifyObservers(new String("END OF GAME: Player 2 won!"));
+            continuePlaying = false;
+        }
         else
         {
-            int drop = fromServer.readInt();
+            int colNum = fromServer.readInt();
             setChanged();
-            notifyObservers (drop); // OR notifyObservers(new Integer (drop))
-
+            notifyObservers(new Integer(colNum));
         }
     }
+
 }

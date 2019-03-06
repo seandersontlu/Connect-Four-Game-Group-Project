@@ -30,7 +30,6 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
 			toPlayer1.writeInt(START);
 			toPlayer2.writeInt(START);
 
-            //ConnectFourBoard board1 = new ConnectFourBoard();
             ConnectFourGui myGui = new ConnectFourGui();
          
             while (true)
@@ -38,6 +37,7 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
                 // Player 1 makes a move
                 fromPlayer1.readInt();
                 int col = fromPlayer1.readInt();
+                sendMove(toPlayer1, col);
 
                 if (myGui.isWinner())
                 {
@@ -60,14 +60,54 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
                     toPlayer2.writeInt(MAX_MOVES);
 
                     sendMove(toPlayer2, col);
+                    break;
                 }
                 else
                 {
+                    //Notify player 2 to take turn
                     toPlayer2.writeInt(CONTINUE);
                     toPlayer1.writeInt(WAIT_FOR_PLAYER);
 
                     sendMove(toPlayer2, col);
                 }
+                
+                // Handle Player 2 roll
+                fromPlayer2.readInt();
+                col = fromPlayer2.readInt();
+                sendMove(toPlayer2, col);
+
+                if (myGui.isWinner())
+                {
+                    if (myGui.getCurrentPlayer() == PLAYER_ONE)
+                    {
+                        toPlayer1.writeInt(PLAYER1_WON);
+                        toPlayer2.writeInt(PLAYER2_LOSS);
+                    }
+                    else
+                    {
+                        toPlayer2.writeInt(PLAYER2_WON);
+                        toPlayer1.writeInt(PLAYER1_LOSS);
+                    }
+                    sendMove(toPlayer1, col);
+                    break;
+                }
+                else if (myGui.isfullBoard())
+                {
+                    toPlayer1.writeInt(MAX_MOVES);
+                    toPlayer2.writeInt(MAX_MOVES);
+
+                    sendMove(toPlayer1, col);
+                    break;
+                }
+                else
+                {
+                    //Notify player 2 to take turn
+                    toPlayer1.writeInt(CONTINUE);
+                    toPlayer2.writeInt(WAIT_FOR_PLAYER);
+
+                    sendMove(toPlayer1, col);
+                }
+
 
             } 
             player1.close();
@@ -76,7 +116,7 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
 		}
 		catch (Exception e)
 		{
-			System.err.println("error");
+			e.printStackTrace();
 		}
 	}
 
