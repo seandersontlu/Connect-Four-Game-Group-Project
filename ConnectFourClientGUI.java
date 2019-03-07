@@ -20,8 +20,12 @@ import java.util.Observer;
 public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants, Observer
 {
     public static final String server = "localhost";
+
+    private static final int ROWS = 6;
+    private static final int COLUMNS = 7;
     private String player1;
     private String player2;
+    private JLabel[][] slot;
     private JLabel title;
     private JButton start;
     private JButton restart;
@@ -34,7 +38,6 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
     
     private JLabel infoLabel;
     private ConnectFourClient client;
-    private ConnectFourGui model;
     private boolean waitingForPlayer1;
 
     public static void main(String[] args)
@@ -46,9 +49,9 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
 
     public ConnectFourClientGUI()
     {
-	    frame = new JFrame("Connect Four");
+	frame = new JFrame("Connect Four");
 
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Making the button
 
@@ -102,7 +105,26 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
         numPanel = new JPanel();
         numPanel.setBackground(Color.WHITE);
 
-        model = new ConnectFourGui();
+	// Middle panel where the board is
+	setLayout(new GridLayout(ROWS, COLUMNS));
+	slot = new JLabel[ROWS][COLUMNS];
+	
+	
+        for (int row = 0; row < ROWS; row++)
+        {
+            for (int col = 0; col < COLUMNS; col++)
+            {
+                slot[row][col] = new JLabel();
+                slot[row][col].setFont(new Font("SansSerif", Font.BOLD, 40));
+                slot[row][col].setHorizontalAlignment(SwingConstants.CENTER);
+                slot[row][col].setBorder(new LineBorder(Color.BLACK));
+                add(slot[row][col]);
+            }
+        }
+
+	setSize(700,600);
+	setVisible(true);
+
 
         // Add components to the panel
 
@@ -120,9 +142,9 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
         topPanel.add(titlePanel);
         setLayout(new BorderLayout());
         this.add(topPanel, BorderLayout.NORTH);
-        this.add(model, BorderLayout.CENTER);
+        //this.add(slot, BorderLayout.CENTER);
         this.add(names, BorderLayout.SOUTH);
-        this.setPreferredSize(new Dimension(500,500));
+        setPreferredSize(new Dimension(500,500));
         
         waitingForPlayer1 = true;
         client = new ConnectFourClient();
@@ -151,7 +173,7 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
             else
                 infoLabel.setText("It is player 2's turn.");
 
-            model.drop(col);
+            //model.drop(col);
         }
     }
 
@@ -174,10 +196,10 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
             {
                 if (event.getSource() == num[i])
                 {
-                    //pushNum(i);
                     client.readyToDropChip();
                 }
             }
+    	}
     }
 
     public void pushRestart()
@@ -195,20 +217,5 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
         frame.setVisible(true);
 
     }
-
-    public void pushNum(int col)
-    {
-        if (model.isFull(col - 1))
-            JOptionPane.showMessageDialog(null, "Column is full, choose another");
-        else
-        {
-            model.drop(col-1);
-            if (model.isWinner())
-                JOptionPane.showMessageDialog(null, "Player " + model.getCurrentPlayer() + " has won!");
-                model.changePlayer();
-            }
-
-        }        
-    }  
 }
 

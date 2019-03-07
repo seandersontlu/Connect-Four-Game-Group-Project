@@ -16,11 +16,8 @@
  * @author  Sarah, Adrian, Scott, and Montrel
  */
 
-public class ConnectFourPlayer
+public class ConnectFourPlayer implements ConnectFourConstants
 {
-    public static final int PLAYER1_NUM = 1;
-    public static final int PLAYER2_NUM = 2;
-
     private String name;
     private int numWins;
     private int numLosses;
