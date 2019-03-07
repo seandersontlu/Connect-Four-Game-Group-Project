@@ -34,13 +34,9 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
 		// to make board. Dummy player names 
 		// are used here for the meantime
 
-		String name1 = "red";
-		String name2 = "yellow";
+		ConnectFourPlayer player = new ConnectFourPlayer("Player 1");
 
-		ConnectFourPlayer playerOne = new ConnectFourPlayer(name1);
-		ConnectFourPlayer playerTwo = new ConnectFourPlayer(name2);
-
-		ConnectFourBoard board = new ConnectFourBoard(playerOne, playerTwo);
+		ConnectFourBoard board = new ConnectFourBoard();
 
          
             	while (true)
@@ -48,11 +44,12 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
                     // Player 1 makes a move
                     fromPlayer1.readInt();
                     int col = fromPlayer1.readInt();
+		    board.drop(col, board.YELLOW);
                     sendMove(toPlayer1, col);
 
                     if (board.checkWinner())
                     {
-                        if (board.getCurrentPlayer() == PLAYER_ONE)
+                        if (board.getSlot(col) == PLAYER_ONE)
                         {
                             toPlayer1.writeInt(PLAYER1_WON);
                             toPlayer2.writeInt(PLAYER2_LOSS);
@@ -65,7 +62,7 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
                     	    sendMove(toPlayer2, col);
                     	    break;
                 	}
-                	else if (board.isFull())
+                	else if (board.isBoardFull())
                 	{
                     	    toPlayer1.writeInt(MAX_MOVES);
                     	    toPlayer2.writeInt(MAX_MOVES);
@@ -82,14 +79,16 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
                     	    sendMove(toPlayer2, col);
                 	}
                 
-                    // Handle Player 2 roll
+                    // Handle Player 2 Move
                     fromPlayer2.readInt();
                     col = fromPlayer2.readInt();
-                    sendMove(toPlayer2, col);
+		    board.drop(col, board.RED);
+                    sendMove(toPlayer2, board.RED);
 
                     if (board.checkWinner())
                     {
-                    	if (board.getCurrentPlayer() == PLAYER_ONE)
+			// Temporary condition
+                    	if (board.getSlot(col) == PLAYER_ONE)
                     	{
                             toPlayer1.writeInt(PLAYER1_WON);
                             toPlayer2.writeInt(PLAYER2_LOSS);
@@ -102,7 +101,7 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
                     	sendMove(toPlayer1, col);
                     	break;
                     }
-                    else if (board.isFull())
+                    else if (board.isBoardFull())
                     {
                         toPlayer1.writeInt(MAX_MOVES);
                         toPlayer2.writeInt(MAX_MOVES);
