@@ -59,16 +59,6 @@ public class ConnectFourBoard
                 rowNum = row;
         return rowNum;
     }
-
-    /**
-     * @param col the column number
-     * Returns the value of the given slot
-     */
-    public int getSlot(int col)
-    {
-	 // Temporary Statement
-         return gameBoard[getRowNum(col)][col];
-    }
     
     /**
      * @param col   the column number
@@ -78,19 +68,18 @@ public class ConnectFourBoard
     {
         return gameBoard[0][col] != EMPTY;
     }
-	
-    /**
-     * Returns if the board is empty
+
+
+    /** Checks if the board is full
      */
     public boolean isBoardFull()
     {
         boolean full = true;
-	for (int row = 0; row < ROWS; row++)
-	    for (int col = 0; col < COLUMNS; col++)
-	        if (gameBoard[row][col] == EMPTY)
-		    full = false;
-	
-	return full;
+        for (int row = 0; row < ROWS; row++)
+            for (int col = 0; col < COLUMNS; col++)
+                if (gameBoard[row][col] == EMPTY)
+                    full = false;
+        return full;
     }
 
     /** Initializes the board with the EMPTY constant
