@@ -1,4 +1,4 @@
-// Sarah, Adrien, Montrel, Scott
+// Sarah, Adrien, Montrell, Scott
 // CSCI 434 Project #1, Iteration #3 
 // ConnectFourBoard.java
 // 3/06/2019
@@ -16,7 +16,7 @@ enum Diagonal
 /**
  * This class represents a connect four board
  * @author Jordyn Martin, Coy Tutt, David Glenewinkel II
- * @author Sarah, Adrian, Scott, Montrel
+ * @author Sarah, Adrian, Scott, Montrell
  */
 public class ConnectFourBoard
 {
@@ -55,6 +55,16 @@ public class ConnectFourBoard
                 rowNum = row;
         return rowNum;
     }
+
+    /**
+     * @param col the column number
+     * Returns the value of the given slot
+     */
+    public int getSlot(int col)
+    {
+	 // Temporary Statement
+         return gameBoard[getRowNum(col)][col];
+    }
     
     /**
      * @param col   the column number
@@ -64,18 +74,19 @@ public class ConnectFourBoard
     {
         return gameBoard[0][col] != EMPTY;
     }
-
-
-    /** Checks if the board is full
+	
+    /**
+     * Returns if the board is empty
      */
     public boolean isBoardFull()
     {
         boolean full = true;
-        for (int row = 0; row < ROWS; row++)
-            for (int col = 0; col < COLUMNS; col++)
-                if (gameBoard[row][col] == EMPTY)
-                    full = false;
-        return full;
+	for (int row = 0; row < ROWS; row++)
+	    for (int col = 0; col < COLUMNS; col++)
+	        if (gameBoard[row][col] == EMPTY)
+		    full = false;
+	
+	return full;
     }
 
     /** Initializes the board with the EMPTY constant
@@ -156,7 +167,9 @@ public class ConnectFourBoard
         return result;
     }
 
-    /** Checks for a diagonal win from left and right
+    /** 
+     * Checks for a diagonal win from left and right
+     * @param direction the direction of the diagonal
      */
     private boolean diagonalWin(Diagonal direction)
     {

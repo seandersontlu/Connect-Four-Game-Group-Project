@@ -1,4 +1,4 @@
-// Sarah, Adrien, Montrel, Scott
+// Sarah, Adrian, Montrell, Scott
 // CSCI 434 Project #1, Iteration #3
 // ConnectFourPlayer.java
 // 3/06/2019
@@ -12,11 +12,8 @@
  * @author  Sarah, Adrian, Scott, and Montrel
  */
 
-public class ConnectFourPlayer
+public class ConnectFourPlayer implements ConnectFourConstants
 {
-    public static final int PLAYER1_NUM = 1;
-    public static final int PLAYER2_NUM = 2;
-
     private String name;
     private int numWins;
     private int numLosses;

@@ -31,6 +31,7 @@ public interface ConnectFourConstants
     public static final int CONNECT_FOUR = 2;
     public static final int MAX_MOVES = 42;
 
+  
     // Port number
     public static final int PORT = 31524; 
 }

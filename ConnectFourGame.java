@@ -1,3 +1,7 @@
+// *********************************
+// ************COMPLETED************
+// *********************************
+//
 // Sarah, Adrien, Montrel, Scott
 // CSCI 434 Project #1, Iteration #3
 // ConnectFourGame.java
@@ -13,14 +17,15 @@
 
 public class ConnectFourGame
 {
-    private static final int MAX_TURNS = 42;
-
-    private boolean winner;
-    private int totalMovesPlayed;
-    private ConnectFourPlayer currentPlayer;
-    private ConnectFourPlayer player1;
-    private ConnectFourPlayer player2;
-    private ConnectFourBoard board;
+    public static final int MAX_TURNS = 42;
+    
+    String name1 = "";
+    String name2 = "";
+    int totalMovesPlayed;
+    ConnectFourPlayer currentPlayer;
+    ConnectFourPlayer player1;
+    ConnectFourPlayer player2;
+    ConnectFourBoard board;
 
     /** Initializes the game
      */
@@ -28,8 +33,8 @@ public class ConnectFourGame
     {
         totalMovesPlayed = 0;
         board = new ConnectFourBoard();
-        player1 = new ConnectFourPlayer (new String());
-        player2 = new ConnectFourPlayer (new String());
+        setPlayer1Name (name1);
+        setPlayer2Name (name2);
         currentPlayer = player1;
     }
 
@@ -63,12 +68,19 @@ public class ConnectFourGame
     
     /**
      * @param name1  player 1's name
-     * @param name2 player 2's name
-     * Sets the players names
+     * Sets player one's name
      */
-    public void setNames (String name1, String name2)
+    public void setPlayer1Name (String name1)
     {
         player1 = new ConnectFourPlayer (name1);
+    }
+
+    /**
+     * @param name2 player 2's name
+     * Sets player two's name
+     */
+    public void setPlayer2Name (String name2)
+    {
         player2 = new ConnectFourPlayer (name2);
     }
 
@@ -76,7 +88,6 @@ public class ConnectFourGame
      */
     public void playGame(int col)
     {
-        winner = false;
         while (true && totalMovesPlayed < MAX_TURNS)
         {
             if (!board.isColumnFull(col)) 
@@ -90,21 +101,14 @@ public class ConnectFourGame
             
             if (board.checkWinner())
             {
-                winner = true;
                 if (currentPlayer.equals(player1))
                     player1.addWin();
                 else
                     player2.addWin();
                 return;
             }
+            currentPlayer = switchPlayer(currentPlayer);
         }
-    }
-
-    /** Determines if someone has won yet
-     */
-    public boolean isWinner()
-    {
-        return winner;
     }
 
     /**
@@ -123,6 +127,8 @@ public class ConnectFourGame
     */
     public void resetGame()
     {
+        name1 = "";
+        name2 = "";
         totalMovesPlayed = 0;
         board = new ConnectFourBoard();
         currentPlayer = player1;

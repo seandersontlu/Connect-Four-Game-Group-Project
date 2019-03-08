@@ -4,11 +4,6 @@
 // 2-18-19
 //
 // This will create the frame for the Connect four game.
-/*
-    // Did not use object oriented design.
-    // No use of player or connect four objects.
-    // Missing code for ConnectFourGui
-*/
 
 import java.awt.*;
 import javax.swing.*;
@@ -17,6 +12,10 @@ import java.awt.event.*;
 import java.util.Observable;
 import java.util.Observer;
 
+/** This class represents the client GUI that the user will see and use
+ * @author Coy T, Jordyn M, David G
+ * @author Scott, Montrell, Sarah, Adrian
+ */
 public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants, Observer
 {
     public static final String server = "localhost";
@@ -30,11 +29,10 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
     private JPanel buttonPanel;
     private JPanel numPanel;
     private JPanel titlePanel;
-    //private JFrame frame;
     
     private JLabel infoLabel;
     private ConnectFourClient client;
-    private ConnectFourGui model;
+    private ConnectFourModel model;
     private boolean waitingForPlayer1;
     private boolean haveChip;
 
@@ -47,8 +45,8 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
 
     public ConnectFourClientGUI()
     {
-	super("Connect Four");
-	setDefaultCloseOperation(EXIT_ON_CLOSE);
+	    super("Connect Four");
+	    setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // Making the button
 
@@ -100,7 +98,7 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
         numPanel = new JPanel();
         numPanel.setBackground(Color.WHITE);
 
-        model = new ConnectFourGui();
+        model = new ConnectFourModel();
 
         // Add components to the panel
 
@@ -122,18 +120,21 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
         this.add(names, BorderLayout.SOUTH);
         this.setPreferredSize(new Dimension(500,500));
         
-	haveChip = false;
+	    haveChip = false;
         waitingForPlayer1 = true;
         client = new ConnectFourClient();
         client.addObserver(this);
     }
 
-
+    /** Update the board and put the chip in the correct column
+     * @param o what is being observed  
+     * @param obj the object that is being returned
+     */
     public void update(Observable o, Object obj)
     {
-	System.out.println(obj);
         if (obj instanceof String)
         {
+        
             String text = (String) obj;
             if (text.contains("won"));
             {
@@ -144,36 +145,42 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
         } 
         else if (obj instanceof Integer)
         {
+
             int col = (Integer) obj;
-	    //pushNum(row);
-	    //model.draw(row, col);	
+	    
+	        pushNum(col);
+
             if (waitingForPlayer1)
                 infoLabel.setText("It is player 1's turn.");
             else
                 infoLabel.setText("It is player 2's turn.");
 
-           if (!haveChip)
-	   {
-		   if (waitingForPlayer1)
-			   infoLabel.setText("Player 1 has had their turn.");
-		   else
+            if (!haveChip)
+            {
+		        if (waitingForPlayer1)
+			        infoLabel.setText("Player 1 has had their turn.");
+		        else
 		           infoLabel.setText("Player 2 has had their turn.");
-		   haveChip = true;
-           }
-	   else
-	   {
-	       haveChip = false;
-	       waitingForPlayer1 = !waitingForPlayer1;
-	   }
-    	}
+		        haveChip = true;
+            }
+	        else
+	        {
+	            haveChip = false;
+	            waitingForPlayer1 = !waitingForPlayer1;
+	        }
+    	}       
     }
-
+    
+    /** Enters the player for player 1
+     */
     public void enterPlayer()
     {
         player1 = JOptionPane.showInputDialog("Enter your name: ");
-        //player2 = JOptionPane.showInputDialog("Player 2 enter your name: ");
     }
-
+    
+    /** Puts the chip in the desired column and sends signal to client that
+     *    it is ready to drop a chip
+     */
     private class ButtonListener implements ActionListener
     {
         public void actionPerformed(ActionEvent event)
@@ -193,7 +200,9 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
             }
     	}
     }
-
+    
+    /** Restarts the game
+     */
     public void pushRestart()
     {
         JOptionPane.showMessageDialog(null, "Game has Reset!");
@@ -210,16 +219,26 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
 
     }
 
+    /** Puts a chip in the specified column
+     *  @param col the column that represents the pushed column number button
+     */
     public void pushNum(int col)
     {
         if (model.isFull(col - 1))
+	{
             JOptionPane.showMessageDialog(null, "Column is full, choose another");
+	    num[col].setEnabled(false);
+	}
         else
         {
             model.drop(col - 1);
             if (model.isWinner())
+	    {
                 JOptionPane.showMessageDialog(null, "Player " + model.getCurrentPlayer() + " has won!");
-                model.changePlayer();
+		for (int i = 0; i < num.length; i++)
+			num[i].setEnabled(false);
+	    }
+            model.changePlayer();
         }
 
     }        

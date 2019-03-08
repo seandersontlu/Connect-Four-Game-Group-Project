@@ -1,8 +1,18 @@
+// Montrell, Adrian, Sarah, Scott
+// CSCI 434 Project #1, Iteration #3
 // ConnectFourClient.java
+// 3/07/2019
+//
+// This class represents the client side of a Connect Four game.
 
 import java.io.*;
 import java.net.*;
 import java.util.Observable;
+
+/**
+ * This class represents the client side for a Connect Four game
+ * @author Adrian, Scott, Montrell, Sarah
+ */
 
 public class ConnectFourClient extends Observable implements ConnectFourConstants, Runnable
 {
@@ -10,11 +20,13 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
     
     private DataInputStream fromServer;
     private DataOutputStream toServer;
+    private ConnectFourPlayer player;
     private int playerNum;
     private String playerName;
     private boolean waiting;
     private boolean continuePlaying;
-    
+    private ConnectFourBoard board;
+
     public ConnectFourClient()
     {
         Thread myThread = new Thread(this);
@@ -23,6 +35,7 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
     
     public void run()
     {
+	    board = new ConnectFourBoard();
         waiting = true;
         continuePlaying = true;
 
@@ -32,11 +45,13 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
             fromServer = new DataInputStream (server.getInputStream());
             toServer = new DataOutputStream (server.getOutputStream());
             
-            playerName = fromServer.readUTF();
+            //playerName = fromServer.readUTF();
             playerNum = fromServer.readInt();
-            setChanged();
-            notifyObservers (playerName + " is player " + playerNum);
+            //setChanged();
+            //notifyObservers (playerName + " is player " + playerNum);
+            //player = new ConnectFourPlayer("Player " + playerNum);
 
+	        // Get START notification from Server
             fromServer.readInt();
 
             do
@@ -45,8 +60,6 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
                 {
                     waitForPlayerAction();
                     takeTurn();
-                    if (!continuePlaying)
-                        break;
                     receiveInformationFromServer();
                 }
                 else
@@ -59,7 +72,6 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
                 }
             } while (continuePlaying);
 
-            server.close();
         }
         catch (Exception e)
         {
@@ -68,29 +80,37 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
         }
     }
 
+    /** 
+     * Puts a thread to sleep and changes the waiting to true
+     * @throws InterruptedException if a thread is interrupted
+     */
     private void waitForPlayerAction() throws InterruptedException
     {
-        waiting = true;
         while (waiting)
             Thread.sleep(100);
         waiting = true;
     }
     
+    /** Changes the waiting to false
+     */
     public void readyToDropChip()
     {
         waiting = false;
     }
 
+    /** Sends a signal to the session, recieves a response from server, and  checks for a win
+     * @throws IOException if the return from the server is not an integer
+     */
     private void takeTurn() throws IOException
     {
         toServer.writeInt(MAKE_MOVE);
-        int colNum = fromServer.readInt();
+        int col = fromServer.readInt();
         setChanged();
-        notifyObservers(new Integer(colNum));
+        notifyObservers(new Integer(col));
 
         int status = fromServer.readInt();
-        System.out.println(status);
-        
+       	player.addWin();
+
         if (status == PLAYER1_WON)
         {
             System.out.println(playerName + " won!!");
@@ -107,6 +127,10 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
         }
     }
 
+    /** Recieves the information from the server, and sends out the appropriate
+     *      messages.
+     * @throws IOException if the response from the server is not an integer
+     */
     private void receiveInformationFromServer() throws IOException
     {
         int status = fromServer.readInt();
@@ -115,9 +139,9 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
         {
             if (playerNum == 2)
             {
-                int colNum = fromServer.readInt();
+                int col = fromServer.readInt();
                 setChanged();
-                notifyObservers(new Integer(colNum));
+                notifyObservers(new Integer(col));
 
             }
             System.out.println("Player 1 won!");
@@ -129,9 +153,9 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
         {
             if (playerNum == 1)
             {
-                int colNum = fromServer.readInt();
+                int col = fromServer.readInt();
                 setChanged();
-                notifyObservers(new Integer(colNum));
+                notifyObservers(new Integer(col));
 
             }
             System.out.println("Player 2 won!");
@@ -141,9 +165,9 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
         }
         else
         {
-            int colNum = fromServer.readInt();
+            int col = fromServer.readInt();
             setChanged();
-            notifyObservers(new Integer(colNum));
+            notifyObservers(new Integer(col));
         }
     }
 
