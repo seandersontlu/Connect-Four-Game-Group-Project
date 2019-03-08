@@ -1,7 +1,3 @@
-// *********************************
-// ************COMPLETED************
-// *********************************
-//
 // Sarah, Adrien, Montrel, Scott
 // CSCI 434 Project #1, Iteration #3 
 // ConnectFourBoard.java
