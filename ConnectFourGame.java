@@ -1,8 +1,4 @@
-// *********************************
-// ************COMPLETED************
-// *********************************
-//
-// Sarah, Adrien, Montrel, Scott
+// Sarah, Adrian, Montrell, Scott
 // CSCI 434 Project #1, Iteration #3
 // ConnectFourGame.java
 // 3-6-19
@@ -25,20 +21,19 @@ public class ConnectFourGame
     ConnectFourPlayer currentPlayer;
     ConnectFourPlayer player1;
     ConnectFourPlayer player2;
-    ConnectFourBoard board;
 
     /** Initializes the game
      */
     public ConnectFourGame()
     {
         totalMovesPlayed = 0;
-        board = new ConnectFourBoard();
         setPlayer1Name (name1);
         setPlayer2Name (name2);
         currentPlayer = player1;
     }
 
     /** Returns player1
+     *  @return player1
      */
     public ConnectFourPlayer getPlayer1()
     {
@@ -46,6 +41,7 @@ public class ConnectFourGame
     }
 
     /** Returns player2
+     *  @return player2
      */
     public ConnectFourPlayer getPlayer2()
     {
@@ -53,18 +49,13 @@ public class ConnectFourGame
     }
 
     /** Returns the current player
+     *  @return the current player
      */
     public ConnectFourPlayer getCurrentPlayer()
     {
         return currentPlayer;
     }
 
-    /** Returns the board
-     */
-    public ConnectFourBoard getBoard()
-    {
-        return board;
-    }
     
     /**
      * @param name1  player 1's name
@@ -85,6 +76,7 @@ public class ConnectFourGame
     }
 
     /** Plays Connect Four
+     *  @param col is the column number
      */
     public void playGame(int col)
     {
@@ -112,8 +104,9 @@ public class ConnectFourGame
     }
 
     /**
-     * @param currentPlayer the current player
      * Switches turns by changing player assigned to currentPlayer
+     * @return the switched player
+     * @param currentPlayer the current player
      */
     public ConnectFourPlayer switchPlayer(ConnectFourPlayer currentPlayer)
     {

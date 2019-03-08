@@ -73,6 +73,7 @@ public class ConnectFourModel extends JPanel
     }
     
     /** Returns the number for the current player
+     *  @return the current player
      */
     public int getCurrentPlayer()
     {
@@ -120,6 +121,7 @@ public class ConnectFourModel extends JPanel
     
     /** Checks if the slot is full
      *  @param col is the column number to check
+     *  @return wheter the slot is full or not
      */
     public boolean isFull(int col)
     {
@@ -127,6 +129,7 @@ public class ConnectFourModel extends JPanel
     }
     
     /** Checks if the board is full
+     *  @return if the board is full
      */
     public boolean isfullBoard()
     {
@@ -140,6 +143,7 @@ public class ConnectFourModel extends JPanel
     }
 
     /** Checks if there is a winner
+     *  @return if there is a win on the board
      */
     public boolean isWinner()
     {
@@ -149,6 +153,7 @@ public class ConnectFourModel extends JPanel
     }
     
     /** Checks for a vertical win
+     *  @return if there is a vertical win
      */
     // Checking vertical
     private boolean verticalWin()
@@ -174,6 +179,7 @@ public class ConnectFourModel extends JPanel
     }
 
     /** Checks for a horizontal win
+     *  @return if there is a horizontal win
      */
     // Checking horizontal
     private boolean horizontalWin()
@@ -198,6 +204,7 @@ public class ConnectFourModel extends JPanel
 
     /** Checks for a diagonal win
      *  @param direction is the direction of the diagonal
+     *  @return if there is a win diagonally
      */
     private boolean diagonalWin(Diagonal direction)
     {

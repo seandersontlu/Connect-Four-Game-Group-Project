@@ -25,7 +25,6 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
     private String playerName;
     private boolean waiting;
     private boolean continuePlaying;
-    private ConnectFourBoard board;
 
     public ConnectFourClient()
     {
@@ -35,7 +34,6 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
     
     public void run()
     {
-	    board = new ConnectFourBoard();
         waiting = true;
         continuePlaying = true;
 

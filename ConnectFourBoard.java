@@ -37,6 +37,7 @@ public class ConnectFourBoard
     }
     
     /** Returns the board
+     *  @return will return the integer version of the gameboard
      */
     public int[][] getGameBoard()
     {
@@ -44,8 +45,9 @@ public class ConnectFourBoard
     }
 
     /**
-     * @param col   the column number
      * Returns the empty row for the given column
+     * @param col   the column number
+     * @return the row number
      */
     public int getRowNum (int col)
     {
@@ -57,18 +59,19 @@ public class ConnectFourBoard
     }
 
     /**
-     * @param col the column number
      * Returns the value of the given slot
+     * @param col the column number
+     * @return the value in the given slot
      */
     public int getSlot(int col)
     {
-	 // Temporary Statement
          return gameBoard[getRowNum(col)][col];
     }
     
     /**
-     * @param col   the column number
      * Checks if a column is full
+     * @param col   the column number
+     * @return determines if the column is full
      */
     public boolean isColumnFull(int col)
     {
@@ -77,6 +80,7 @@ public class ConnectFourBoard
 	
     /**
      * Returns if the board is empty
+     * @return determines if the board is full
      */
     public boolean isBoardFull()
     {
@@ -117,6 +121,7 @@ public class ConnectFourBoard
     }
 
     /** Checks for vertical, horizontal, left diagonal, and right diagonal wins
+     * @return if there is a winner
      */
     public boolean checkWinner()
     {
@@ -126,6 +131,7 @@ public class ConnectFourBoard
     }
 
     /** Checks for a vertical win
+     *  @return determines if there is a win vertically
      */
     private boolean verticalWin()
     {
@@ -148,6 +154,7 @@ public class ConnectFourBoard
     }
 
     /** Checks for a horizontal win
+     *  @return determines if there is a win horizontally
      */
     private boolean horizontalWin()
     {
@@ -170,6 +177,7 @@ public class ConnectFourBoard
     /** 
      * Checks for a diagonal win from left and right
      * @param direction the direction of the diagonal
+     * @return determines if there is a win diagonally
      */
     private boolean diagonalWin(Diagonal direction)
     {

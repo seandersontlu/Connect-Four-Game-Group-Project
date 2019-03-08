@@ -30,6 +30,7 @@ public class ConnectFourPlayer implements ConnectFourConstants
     }
 
     /** Returns the player's name
+      * @return string that is the name 
      */
     public String getName()
     {
@@ -37,6 +38,7 @@ public class ConnectFourPlayer implements ConnectFourConstants
     }
 
     /** Returns the number of wins
+     *  @return the number of wins
      */
     public int getNumWins()
     {
@@ -44,6 +46,7 @@ public class ConnectFourPlayer implements ConnectFourConstants
     }
 
     /** Returns the number of losses
+      * @return the number of losses
      */
     public int getNumLosses()
     {
