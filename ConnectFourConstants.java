@@ -21,11 +21,9 @@ public interface ConnectFourConstants
     public static final int PLAYER_TWO = 2;
     public static final int PLAYER1_WON = 3;
     public static final int PLAYER2_WON = 4;
-    public static final int PLAYER1_LOSS = 5;
-    public static final int PLAYER2_LOSS = 6;
-    public static final int WAIT_FOR_PLAYER = 7;
-    public static final int CONTINUE = 8;
-    public static final int MAKE_MOVE = 9;
+    public static final int WAIT_FOR_PLAYER = 5;
+    public static final int CONTINUE = 6;
+    public static final int MAKE_MOVE = 7;
 
     // Used for end of game
     public static final int CONNECT_FOUR = 2;
