@@ -43,7 +43,7 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
             // are used here for the meantime
 
             ConnectFourBoard board = new ConnectFourBoard();
-             
+            board.resetBoard(); 
             while (true)
             {
                 // Player 1 makes a move
@@ -51,7 +51,8 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
 
 		        // Get column number from player button
                 int col = fromPlayer1.readInt(); 
-		        board.drop(col, board.YELLOW);
+		board.drop(col, board.YELLOW);
+		//col -= board.ROWS;
                 sendMove(toPlayer1, col);
 
                 if (board.checkWinner())
@@ -90,6 +91,7 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
                 fromPlayer2.readInt();
                 col = fromPlayer2.readInt();
                 board.drop(col, board.YELLOW);
+		col = board.getRowNum(col);
                 sendMove(toPlayer2, col);
 
                 if (board.checkWinner())
@@ -118,8 +120,8 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
                 else
                 {
                     //Notify player 2 to take turn
-                    toPlayer1.writeInt(CONTINUE);
-                    toPlayer2.writeInt(WAIT_FOR_PLAYER);
+                    toPlayer2.writeInt(CONTINUE);
+                    toPlayer1.writeInt(WAIT_FOR_PLAYER);
 
                     sendMove(toPlayer1, col);
                 }

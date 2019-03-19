@@ -35,6 +35,7 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
     private ConnectFourModel model;
     private boolean waitingForPlayer1;
     private boolean haveChip;
+    private int column = 0;
 
     public static void main(String[] args)
     {
@@ -82,10 +83,12 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
         JLabel nameOne = new JLabel(player1);
         JLabel name2 = new JLabel(" Player 2 (Red):");
         JLabel nameTwo = new JLabel(player2);
+	infoLabel = new JLabel(" ");
         names.add(name1);
         names.add(nameOne);
         names.add(name2);
         names.add(nameTwo);
+	names.add(infoLabel);
 
 
         // Panels
@@ -139,21 +142,24 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
             if (text.contains("won"));
             {
                 infoLabel.setText(text);
-                for (int i = 0; i < num.length; i++)
-                    num[i].setEnabled(false);
+                //for (int i = 1; i < num.length; i++)
+                //    num[i].setEnabled(false);
             }
         } 
         else if (obj instanceof Integer)
         {
 
             int col = (Integer) obj;
-	    
-	        pushNum(col);
-
             if (waitingForPlayer1)
+	    {
+		model.drop(col);
                 infoLabel.setText("It is player 1's turn.");
+	    }
             else
+	    {
+		model.drop(col);
                 infoLabel.setText("It is player 2's turn.");
+            }
 
             if (!haveChip)
             {
@@ -194,8 +200,9 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
             {
                 if (event.getSource() == num[i])
                 {
-                    pushNum(i);
-                    client.readyToDropChip();
+		    //pushNum(i);
+                    column = i;
+                    client.readyToDropChip(column);
                 }
             }
     	}

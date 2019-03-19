@@ -34,7 +34,7 @@ public class ConnectFourModel extends JPanel
     private final static ImageIcon PLAYER1_CHIP = new ImageIcon("Y_Player.png");
     private final static ImageIcon PLAYER2_CHIP = new ImageIcon("R_Player.png");
 
-    private final static int ROWS = 6;
+    public final static int ROWS = 6;
     private final static int COLUMNS = 7;
 
     public ConnectFourModel()

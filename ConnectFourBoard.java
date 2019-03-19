@@ -127,7 +127,7 @@ public class ConnectFourBoard
     {
         return (verticalWin() || horizontalWin() 
             || diagonalWin(Diagonal.LEFT)
-            || diagonalWin(Diagonal.RIGHT));
+	    || diagonalWin(Diagonal.RIGHT));
     }
 
     /** Checks for a vertical win
