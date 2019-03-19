@@ -60,12 +60,12 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
                     if (board.getSlot(col) == PLAYER_ONE)
                     {
                         toPlayer1.writeInt(PLAYER1_WON);
-                        toPlayer2.writeInt(PLAYER2_LOSS);
+                        toPlayer2.writeInt(PLAYER2_WON);
                     }
                     else
                     {
+                        toPlayer1.writeInt(PLAYER1_WON);
                         toPlayer2.writeInt(PLAYER2_WON);
-                        toPlayer1.writeInt(PLAYER1_LOSS);
                     }
                         sendMove(toPlayer2, col);
                         break;
@@ -99,12 +99,12 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
                     if (board.getSlot(col) == PLAYER_ONE)
                     {
                         toPlayer1.writeInt(PLAYER1_WON);
-                        toPlayer2.writeInt(PLAYER2_LOSS);
+                        toPlayer2.writeInt(PLAYER2_WON);
                     }
                     else
                     {
+                        toPlayer1.writeInt(PLAYER1_WON);
                         toPlayer2.writeInt(PLAYER2_WON);
-                        toPlayer1.writeInt(PLAYER1_LOSS);
                     }
                     sendMove(toPlayer1, col);
                     break;
