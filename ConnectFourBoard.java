@@ -84,10 +84,10 @@ public class ConnectFourBoard
      */
     public boolean isBoardFull()
     {
-        boolean full = true;
+        boolean full = false;
 	for (int row = 0; row < ROWS; row++)
 	    for (int col = 0; col < COLUMNS; col++)
-	        if (gameBoard[row][col] == EMPTY)
+	        if (gameBoard[row][col] != EMPTY)
 		    full = false;
 	
 	return full;
@@ -126,8 +126,7 @@ public class ConnectFourBoard
     public boolean checkWinner()
     {
         return (verticalWin() || horizontalWin() 
-            || diagonalWin(Diagonal.LEFT)
-	    || diagonalWin(Diagonal.RIGHT));
+            || diagonalWin(Diagonal.LEFT));
     }
 
     /** Checks for a vertical win
@@ -143,7 +142,7 @@ public class ConnectFourBoard
             // than it needs to.
             for (int row = 0; row < ROWS - 3; row++)
             {
-                if (gameBoard[row][col] != ' ' && 
+                if (gameBoard[row][col] != EMPTY && 
                     gameBoard[row][col] == gameBoard[row+1][col] && 
                     gameBoard[row][col] == gameBoard[row+2][col] && 
                     gameBoard[row][col] == gameBoard[row+3][col])
@@ -164,7 +163,7 @@ public class ConnectFourBoard
         {
             for (int col = 0; col < COLUMNS - 3; col++)
             {
-                if (gameBoard[row][col] != ' ' && 
+                if (gameBoard[row][col] != EMPTY && 
                     gameBoard[row][col] == gameBoard[row][col+1] && 
                     gameBoard[row][col] == gameBoard[row][col+2] && 
                     gameBoard[row][col] == gameBoard[row][col+3])
@@ -190,7 +189,7 @@ public class ConnectFourBoard
             {
                 for (int col = 0; col < COLUMNS - 3; col++)
                 {
-                    if (gameBoard[row][col] != ' ' && 
+                    if (gameBoard[row][col] != EMPTY && 
                         gameBoard[row][col] == gameBoard[row+1][col+1] && 
                         gameBoard[row][col] == gameBoard[row+2][col+2] && 
                         gameBoard[row][col] == gameBoard[row+3][col+3])
@@ -205,7 +204,7 @@ public class ConnectFourBoard
             {
                 for (int col = 3; col < COLUMNS; col++)
                 {
-                    if (gameBoard[row][col] != ' ' && 
+                    if (gameBoard[row][col] != EMPTY && 
                         gameBoard[row][col] == gameBoard[row+1][col-1] && 
                         gameBoard[row][col] == gameBoard[row+2][col-2] && 
                         gameBoard[row][col] == gameBoard[row+3][col-3])

@@ -26,6 +26,7 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
     private boolean waiting;
     private boolean continuePlaying;
     private int col = 0;
+    private ConnectFourBoard board;
 
     public ConnectFourClient()
     {
@@ -36,14 +37,15 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
     public void run()
     {
 	player = new ConnectFourPlayer("null");	
+	board = new ConnectFourBoard();
         waiting = true;
         continuePlaying = true;
 
         try
         {
-            Socket server = new Socket (SERVER, PORT);
-            fromServer = new DataInputStream (server.getInputStream());
-            toServer = new DataOutputStream (server.getOutputStream());
+            Socket server = new Socket(SERVER, PORT);
+            fromServer = new DataInputStream(server.getInputStream());
+            toServer = new DataOutputStream(server.getOutputStream());
             
             playerNum = fromServer.readInt();
             setChanged();
@@ -57,19 +59,28 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
             {
                 if (playerNum == PLAYER_ONE)
                 {
+		    System.out.println("Player One: ");
                     waitForPlayerAction();
+		    System.out.println("Waited for player 1");
                     takeTurn();
-                    //receiveInformationFromServer();
+		    System.out.println("Took player 1 turn");
+                    receiveInformationFromServer();
+		    System.out.println("Took player 1 turn\n");
                 }
                 else
                 {
+		    System.out.println("Player Two: ");
                     receiveInformationFromServer();
+		    System.out.println("Player 2 recieved information from Server");
                     if (!continuePlaying)
                         break;
                     waitForPlayerAction();
+		    System.out.println("Waited for player 2 action");
                     takeTurn();
+		    System.out.println("Took player 2 turn\n");
                 }
-            } while (continuePlaying);
+            } 
+	    while (continuePlaying);
 
         }
         catch (Exception e)
@@ -86,7 +97,9 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
     private void waitForPlayerAction() throws InterruptedException
     {
         while (waiting)
+	{
             Thread.sleep(100);
+	}
         waiting = true;
     }
     
@@ -107,28 +120,29 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
         toServer.writeInt(MAKE_MOVE);
 	toServer.writeInt(col);
         int column = fromServer.readInt();
-	System.out.println("The column number recieved is " + col);
+	System.out.println("The column number recieved is " + column);
         setChanged();
         notifyObservers(new Integer(column));
-
+	
+	// See if this turn won the game
         int status = fromServer.readInt();
 	System.out.println("The status number recieved is " + status);
-       	player.addWin();
+       	//player.addWin();
 
-        if (status == PLAYER1_WON)
+       if (status == PLAYER1_WON)
         {
-            System.out.println(playerName + " won!!");
+            System.out.println("Player " + playerNum + " won!!");
             setChanged();
             notifyObservers (new String("END OF GAME: " + playerNum + " won"));
             continuePlaying = false;
         }
         else if (status == PLAYER2_WON)
         {
-            System.out.println(playerNum + " won!!");
+            System.out.println("Player " + playerNum + " won!!");
             setChanged();
             notifyObservers (new String("END OF GAME: " + playerNum + " won"));
             continuePlaying = false;
-        }
+        } 
     }
 
     /** Recieves the information from the server, and sends out the appropriate
@@ -138,7 +152,7 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
     private void receiveInformationFromServer() throws IOException
     {
         int status = fromServer.readInt();
-
+	System.out.println("Status: " + status);
         if (status == PLAYER1_WON)
         {
             if (playerNum == 2)

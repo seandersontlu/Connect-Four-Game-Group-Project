@@ -131,7 +131,7 @@ public class ConnectFourModel extends JPanel
     /** Checks if the board is full
      *  @return if the board is full
      */
-    public boolean isfullBoard()
+    public boolean isFullBoard()
     {
         boolean full = true;
         for (int i = 0; i < ROWS; i++)

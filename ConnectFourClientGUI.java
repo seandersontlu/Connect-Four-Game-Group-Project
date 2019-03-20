@@ -150,14 +150,14 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
         {
 
             int col = (Integer) obj;
+            model.drop(col - 1);
             if (waitingForPlayer1)
 	    {
-		model.drop(col);
                 infoLabel.setText("It is player 1's turn.");
 	    }
             else
 	    {
-		model.drop(col);
+		//model.drop(col - 1);
                 infoLabel.setText("It is player 2's turn.");
             }
 
@@ -167,13 +167,14 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
 			        infoLabel.setText("Player 1 has had their turn.");
 		        else
 		           infoLabel.setText("Player 2 has had their turn.");
-		        haveChip = true;
+			haveChip = true;
             }
 	        else
 	        {
 	            haveChip = false;
 	            waitingForPlayer1 = !waitingForPlayer1;
 	        }
+	    model.changePlayer();
     	}       
     }
     
