@@ -18,6 +18,7 @@ public class ConnectFourGame
     String name1 = "";
     String name2 = "";
     int totalMovesPlayed;
+    ConnectFourBoard board;
     ConnectFourPlayer currentPlayer;
     ConnectFourPlayer player1;
     ConnectFourPlayer player2;
@@ -27,6 +28,7 @@ public class ConnectFourGame
     public ConnectFourGame()
     {
         totalMovesPlayed = 0;
+        board = new ConnectFourBoard();
         setPlayer1Name (name1);
         setPlayer2Name (name2);
         currentPlayer = player1;
