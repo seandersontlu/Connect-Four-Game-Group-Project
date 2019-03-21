@@ -21,21 +21,21 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
     public static final String server = "localhost";
     private String player1;
     private String player2;
-    private JLabel title;
+    private int score1;
+    private int score2;
+
     private JButton start;
     private JButton restart;
     private JButton quit;
     private JButton[] num;
-    private JPanel buttonPanel;
-    private JPanel numPanel;
-    private JPanel titlePanel;
-    
+   
+    private JLabel player1Label;
+    private JLabel player2Label;
     private JLabel infoLabel;
     private ConnectFourClient client;
     private ConnectFourModel model;
     private boolean waitingForPlayer1;
     private boolean haveChip;
-    private int column = 0;
 
     public static void main(String[] args)
     {
@@ -48,7 +48,7 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
     {
 	    super("Connect Four");
 	    setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+        
         // Making the button
 
         restart = new JButton("New Game");
@@ -57,48 +57,41 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
         quit.addActionListener(new ButtonListener());
         
         num = new JButton[8];
-        for (int i = 0; i < num.length; i++)
+        for (int i = 1; i < num.length; i++)
         {
             num[i] = new JButton(" " + i + "  ");
             num[i].addActionListener(new ButtonListener());
         }
 
-        // Adding Player names
+        // Adding Player names, scores, and turn status
         
-        Panel p2 = new Panel();
-        p2.setLayout(new BorderLayout());
+        JPanel statPanel = new JPanel ();
+        statPanel.setLayout(new BorderLayout());
         
-        JLabel playerOne = new JLabel("Player 1:");
-        p2.add(playerOne, BorderLayout.SOUTH);
-        JLabel playerTwo = new JLabel("Player 2:");
-        p2.add(playerTwo, BorderLayout.SOUTH);
-
-        enterPlayer();
-
-        playerOne.setText(player1);
-        playerTwo.setText(player2);
-
-        JPanel names = new JPanel();
-        JLabel name1 = new JLabel("Player 1 (Yellow):");
-        JLabel nameOne = new JLabel(player1);
-        JLabel name2 = new JLabel(" Player 2 (Red):");
-        JLabel nameTwo = new JLabel(player2);
-	infoLabel = new JLabel(" ");
-        names.add(name1);
-        names.add(nameOne);
-        names.add(name2);
-        names.add(nameTwo);
-	names.add(infoLabel);
-
+        JPanel playerPanel = new JPanel();
+        //JPanel player1Panel = new JPanel();
+        //JPanel player2Panel = new JPanel();
+        JPanel turnPanel = new JPanel ();
+        player1Label = new JLabel(" ");
+        player2Label = new JLabel(" ");
+        infoLabel = new JLabel(" ");
+        
+        //player1Panel.add(name1Label);
+        //player2Panel.add(name2Label);
+        playerPanel.add(player1Label);
+        playerPanel.add(player2Label);
+	    turnPanel.add(infoLabel);
+        statPanel.add(playerPanel, BorderLayout.NORTH);
+        statPanel.add(turnPanel, BorderLayout.SOUTH);
 
         // Panels
 
-        titlePanel = new JPanel();
-        title = new JLabel("Connect 4 Game");
+        JPanel titlePanel = new JPanel();
+        JLabel title = new JLabel("Connect 4 Game");
         titlePanel.setBackground(Color.GREEN);
-        buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.WHITE);
-        numPanel = new JPanel();
+        JPanel numPanel = new JPanel();
         numPanel.setBackground(Color.WHITE);
 
         model = new ConnectFourModel();
@@ -120,15 +113,20 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
         setLayout(new BorderLayout());
         this.add(topPanel, BorderLayout.NORTH);
         this.add(model, BorderLayout.CENTER);
-        this.add(names, BorderLayout.SOUTH);
+        this.add(statPanel, BorderLayout.SOUTH);
         this.setPreferredSize(new Dimension(500,500));
         
+        player1 = "";
+        player2 = "";
+        enterName();
+        score1 = 0;
+        score2 = 0;
 	    haveChip = false;
         waitingForPlayer1 = true;
         client = new ConnectFourClient();
         client.addObserver(this);
     }
-
+    
     /** Update the board and put the chip in the correct column
      * @param o what is being observed  
      * @param obj the object that is being returned
@@ -137,16 +135,15 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
     {
         if (obj instanceof String)
         {
-        
             String text = (String) obj;
-	    if (text.contains("won") || text.contains("turn"))
-	    {
-	        infoLabel.setText(text);
-	        for (int i = 1; i < num.length; i++)
-	            num[i].setEnabled(false);
+            if (text.contains("won") || text.contains("turn"))
+	        {
+	            infoLabel.setText(text);
+	            for (int i = 1; i < num.length; i++)
+	                num[i].setEnabled(false);
        	    }
-	    else
-	        infoLabel.setText(text);
+            else
+	            infoLabel.setText(text);
         } 
         else if (obj instanceof Integer)
         {
@@ -154,12 +151,9 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
             int col = (Integer) obj;
             model.drop(col - 1);
             if (waitingForPlayer1)
-	    {
                 infoLabel.setText("It is player 1's turn.");
-	    }
             else
                 infoLabel.setText("It is player 2's turn.");
-            
 
             if (!haveChip)
             {
@@ -167,22 +161,31 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
 			        infoLabel.setText("It is Player 2's turn.");
 		        else
 		           infoLabel.setText("It is Player 1's turn.");
-			haveChip = true;
+			    haveChip = true;
             }
 	        else
 	        {
 	            haveChip = false;
 	            waitingForPlayer1 = !waitingForPlayer1;
 	        }
-	    model.changePlayer();
+	        model.changePlayer();
     	}       
     }
     
-    /** Enters the player for player 1
+    /** Enters the players' names
      */
-    public void enterPlayer()
+    public void enterName()
     {
-        player1 = JOptionPane.showInputDialog("Enter your name: ");
+        if (player1.equals(""))
+        {
+            player1 = JOptionPane.showInputDialog("Enter your name: ");
+            player1Label.setText(player1 + ": " + score1);
+        }
+        else
+        {
+            player2 = JOptionPane.showInputDialog("Enter your name: ");
+            player2Label.setText(player2 + ": " + score2);
+        }
     }
     
     /** Puts the chip in the desired column and sends signal to client that
@@ -192,6 +195,7 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
     {
         public void actionPerformed(ActionEvent event)
         {
+            int column = 0;
             if (event.getSource() == restart)
                 pushRestart();
             if (event.getSource() == quit)
@@ -232,23 +236,22 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
     public void pushNum(int col)
     {
         if (model.isFull(col - 1))
-	{
+    	{
             JOptionPane.showMessageDialog(null, "Column is full, choose another");
-	    num[col].setEnabled(false);
-	}
+	        num[col].setEnabled(false);
+	    }
         else
         {
             model.drop(col - 1);
             if (model.isWinner())
-	    {
+	        {
                 JOptionPane.showMessageDialog(null, "Player " + model.getCurrentPlayer() + " has won!");
-		for (int i = 0; i < num.length; i++)
-			num[i].setEnabled(false);
-	    }
+	    	    for (int i = 0; i < num.length; i++)
+		    	num[i].setEnabled(false);
+	        }   
             model.changePlayer();
         }
-
     }        
-      
+    
 }
 
