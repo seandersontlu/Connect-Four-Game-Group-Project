@@ -139,12 +139,14 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
         {
         
             String text = (String) obj;
-            if (text.contains("won"));
-            {
-                infoLabel.setText(text);
-                //for (int i = 1; i < num.length; i++)
-                //    num[i].setEnabled(false);
-            }
+	    if (text.contains("won") || text.contains("turn"))
+	    {
+	        infoLabel.setText(text);
+	        for (int i = 1; i < num.length; i++)
+	            num[i].setEnabled(false);
+       	    }
+	    else
+	        infoLabel.setText(text);
         } 
         else if (obj instanceof Integer)
         {
@@ -156,17 +158,15 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
                 infoLabel.setText("It is player 1's turn.");
 	    }
             else
-	    {
-		//model.drop(col - 1);
                 infoLabel.setText("It is player 2's turn.");
-            }
+            
 
             if (!haveChip)
             {
 		        if (waitingForPlayer1)
-			        infoLabel.setText("Player 1 has had their turn.");
+			        infoLabel.setText("It is Player 2's turn.");
 		        else
-		           infoLabel.setText("Player 2 has had their turn.");
+		           infoLabel.setText("It is Player 1's turn.");
 			haveChip = true;
             }
 	        else
@@ -201,7 +201,6 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
             {
                 if (event.getSource() == num[i])
                 {
-		    //pushNum(i);
                     column = i;
                     client.readyToDropChip(column);
                 }

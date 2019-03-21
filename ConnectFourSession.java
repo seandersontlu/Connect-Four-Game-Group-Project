@@ -93,6 +93,7 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
                 }
             
                 // Handle Player 2 Move
+		board.changePlayer();
                 fromPlayer2.readInt();
                 col = fromPlayer2.readInt();
                 board.drop(col);
@@ -129,9 +130,9 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
                     //Notify player 1 to take turn
                     toPlayer1.writeInt(CONTINUE);
 		    System.out.println("Player 1 status: " + CONTINUE);
-                    toPlayer2.writeInt(WAIT_FOR_PLAYER);
-		    System.out.println("Player 2 status: " + WAIT_FOR_PLAYER);
 
+                    toPlayer2.writeInt(WAIT_FOR_PLAYER);
+		    System.out.println("Player 1 status message: " + WAIT_FOR_PLAYER);
                     sendMove(toPlayer1, col);
                 }
 
