@@ -1,7 +1,7 @@
 // Sarah, Adrien, Montrell, Scott
 // CSCI 434 Project #1, Iteration #3 
 // ConnectFourBoard.java
-// 3/06/2019
+// 3/21/2019
 //
 // This is the class method that creates the board for the game
 // connect four.
@@ -212,9 +212,7 @@ public class ConnectFourBoard
                 }
             }
         }
-
         return result;
     }
-
 }
 

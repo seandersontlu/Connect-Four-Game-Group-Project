@@ -1,7 +1,7 @@
 // Montrell, Adrian, Sarah, Scott
 // CSCI 434 Project #1, Iteration #3
 // ConnectFourClient.java
-// 3/07/2019
+// 3/21/2019
 //
 // This class represents the client side of a Connect Four game.
 
@@ -51,7 +51,6 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
             setChanged();
             if (playerNum == 1)
                 notifyObservers ("You are yellow");
-//notifyObservers ("You are player " + playerNum);
             else 
                 notifyObservers ("You are red");
             player = new ConnectFourPlayer("Player " + playerNum);
@@ -83,9 +82,7 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
                     takeTurn();
 		            System.out.println("Took player 2 turn\n");
                 }
-            } 
-	    while (continuePlaying);
-
+            } while (continuePlaying);
         }
         catch (Exception e)
         {
@@ -130,7 +127,6 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
 	    // See if this turn won the game
         int status = fromServer.readInt();
 	    System.out.println("The status number recieved is " + status);
-       	//player.addWin();
 
         if (status == PLAYER1_WON)
         {

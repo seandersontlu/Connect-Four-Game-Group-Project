@@ -1,7 +1,7 @@
-// Jordyn M, Coy T, David G
+// Sarah, Adrian, Montrel, Scott
 // CSCI 434 Project #1, Iteration 2
 // ConnectFourModel.java
-// 2-18-19
+// 3/21/2019
 //
 // Creates the Connect Four GUI
 
@@ -11,11 +11,6 @@ import javax.swing.border.*;
 import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
-
-enum Diagonal 
-{
-    LEFT, RIGHT;
-}
 
 /** This class represents a model for the Client GUI.
  *  @author Jordyn M, Coy T, David G
@@ -42,7 +37,6 @@ public class ConnectFourModel extends JPanel
         currentPlayer = PLAYER_ONE;
 
         // Create the game board, or grid in this case. LOGICAL
-
         gameBoard = new int[ROWS][COLUMNS];
 
         for (int row = 0; row < ROWS; row++)
@@ -54,7 +48,6 @@ public class ConnectFourModel extends JPanel
         }
 
         // Create the game board, or grid in this case. GUI
-
         setLayout(new GridLayout(ROWS, COLUMNS));
         slot = new JLabel[ROWS][COLUMNS];
         
@@ -166,9 +159,7 @@ public class ConnectFourModel extends JPanel
                     gameBoard[row+1][col] && gameBoard[row][col] ==
                     gameBoard[row+2][col] && gameBoard[row][col] ==
                     gameBoard[row+3][col])
-                {
                     result = true;
-                }
             }
         }
         return result;
@@ -190,9 +181,7 @@ public class ConnectFourModel extends JPanel
                     gameBoard[row][col+1] && gameBoard[row][col] ==
                     gameBoard[row][col+2] && gameBoard[row][col] ==
                     gameBoard[row][col+3])
-                {
                     result = true;
-                }
             }
         }
         return result;
@@ -217,9 +206,7 @@ public class ConnectFourModel extends JPanel
                         gameBoard[row+1][col+1] && gameBoard[row][col] ==
                         gameBoard[row+2][col+2] && gameBoard[row][col] ==
                         gameBoard[row+3][col+3])
-                    {
                         result = true;
-                    }
                 }
             }   
         }
@@ -234,9 +221,7 @@ public class ConnectFourModel extends JPanel
                         gameBoard[row+1][col-1] && gameBoard[row][col] ==
                         gameBoard[row+2][col-2] && gameBoard[row][col] ==
                         gameBoard[row+3][col-3])
-                    {
                         result = true;
-                    }
                 }
             }
         }
