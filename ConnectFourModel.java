@@ -92,7 +92,7 @@ public class ConnectFourModel extends JPanel
      */
     public void drop(int col)
     {
-        for (int row = ROWS - 1; row > 0; row--)
+        for (int row = ROWS - 1; row >= 0; row--)
         {
             if (gameBoard[row][col] == EMPTY)
             {
@@ -110,13 +110,9 @@ public class ConnectFourModel extends JPanel
     public void draw(int col, int row)
     {
         if (currentPlayer == PLAYER_ONE)
-        {
             slot[row][col].setIcon(PLAYER1_CHIP);
-        }
         else
-        {
             slot[row][col].setIcon(PLAYER2_CHIP);
-        }
     }
     
     /** Checks if the slot is full

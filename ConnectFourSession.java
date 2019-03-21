@@ -52,7 +52,7 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
 
 		// Get column number from player button
                 col = fromPlayer1.readInt(); 
-		board.drop(col);
+		board.drop(col - 1);
                 sendMove(toPlayer1, col);
 		System.out.println("\nPlayer One: ");
                 if (board.isWinner())
@@ -96,7 +96,7 @@ public class ConnectFourSession implements ConnectFourConstants, Runnable
 		board.changePlayer();
                 fromPlayer2.readInt();
                 col = fromPlayer2.readInt();
-                board.drop(col);
+                board.drop(col - 1);
                 sendMove(toPlayer2, col);
 		System.out.println("Player Two: ");
                 if (board.isWinner())

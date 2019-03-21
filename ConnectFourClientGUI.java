@@ -57,7 +57,7 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
         quit.addActionListener(new ButtonListener());
         
         num = new JButton[8];
-        for (int i = 1; i < num.length; i++)
+        for (int i = 0; i < num.length; i++)
         {
             num[i] = new JButton(" " + i + "  ");
             num[i].addActionListener(new ButtonListener());
@@ -197,7 +197,7 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
             if (event.getSource() == quit)
                 System.exit(0);
 
-            for (int i = 1; i < num.length; i++)
+            for (int i = 0; i < num.length; i++)
             {
                 if (event.getSource() == num[i])
                 {
