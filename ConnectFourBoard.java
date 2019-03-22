@@ -1,7 +1,7 @@
 // Sarah, Adrien, Montrell, Scott
 // CSCI 434 Project #1, Iteration #3 
 // ConnectFourBoard.java
-// 3/21/2019
+// 3/06/2019
 //
 // This is the class method that creates the board for the game
 // connect four.
@@ -85,12 +85,12 @@ public class ConnectFourBoard
     public boolean isBoardFull()
     {
         boolean full = false;
-	for (int row = 0; row < ROWS; row++)
-	    for (int col = 0; col < COLUMNS; col++)
-	        if (gameBoard[row][col] != EMPTY)
-		    full = false;
+	    for (int row = 0; row < ROWS; row++)
+	        for (int col = 0; col < COLUMNS; col++)
+	            if (gameBoard[row][col] != EMPTY)
+		            full = false;
 	
-	return full;
+	    return full;
     }
 
     /** Initializes the board with the EMPTY constant
@@ -212,7 +212,9 @@ public class ConnectFourBoard
                 }
             }
         }
+
         return result;
     }
+
 }
 

@@ -1,6 +1,6 @@
 // Adrian, Sarah, Montrell, Scott
 // CSCI 434 Project 1
-// 3/21/2019
+// 2/27/19
 // ConnectFourConstants.java
 // 
 // This class is for the constants used for Connect Four.
@@ -29,6 +29,7 @@ public interface ConnectFourConstants
     public static final int CONNECT_FOUR = 2;
     public static final int MAX_MOVES = 42;
 
+  
     // Port number
     public static final int PORT = 31524; 
 }

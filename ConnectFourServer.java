@@ -1,6 +1,6 @@
 // Adrian, Sarah, Montrell, Scott
 // CSCI 434 Project 1. iteration 3
-// 3/21/2019
+// 3/6/2019
 // ConnectFourServer.java
 // 
 // This is the server class used for Connect Four.

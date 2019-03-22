@@ -1,7 +1,7 @@
 // Sarah, Adrian, Montrell, Scott
 // CSCI 434 Project #1, Iteration #3
 // ConnectFourPlayer.java
-// 3/21/2019
+// 3/06/2019
 //
 // This class creates the players and keeps track
 // of wins, losses, ties for the game connect four.

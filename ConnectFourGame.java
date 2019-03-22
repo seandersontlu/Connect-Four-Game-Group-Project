@@ -1,7 +1,7 @@
 // Sarah, Adrian, Montrell, Scott
 // CSCI 434 Project #1, Iteration #3
 // ConnectFourGame.java
-// 3/21/2019
+// 3-6-19
 // 
 // This program runs the game of connect four.
 
