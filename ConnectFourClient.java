@@ -55,32 +55,32 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
                 notifyObservers ("You are red");
             player = new ConnectFourPlayer("Player " + playerNum);
 	    
-	        // Get START notification from Server
+	    // Get START notification from Server
             fromServer.readInt();
 
             do
             {
                 if (playerNum == PLAYER_ONE)
                 {
-		            System.out.println("Player One: ");
-                        waitForPlayerAction();
-		            System.out.println("Waited for player 1");
-                        takeTurn();
-		            System.out.println("Took player 1 turn");
-                        receiveInformationFromServer();
-		            System.out.println("Took player 1 turn\n");
+		    System.out.println("Player One: ");
+                    waitForPlayerAction();
+		    System.out.println("Waited for player 1");
+                    takeTurn();
+		    System.out.println("Took player 1 turn");
+                    receiveInformationFromServer();
+		    System.out.println("Took player 1 turn\n");
                 }
                 else
                 {
-		            System.out.println("Player Two: ");
-                        receiveInformationFromServer();
-		            System.out.println("Player 2 recieved information from Server");
+		    System.out.println("Player Two: ");
+                    receiveInformationFromServer();
+		    System.out.println("Player 2 recieved information from Server");
                     if (!continuePlaying)
                         break;
                     waitForPlayerAction();
-		            System.out.println("Waited for player 2 action");
+		    System.out.println("Waited for player 2 action");
                     takeTurn();
-		            System.out.println("Took player 2 turn\n");
+		    System.out.println("Took player 2 turn\n");
                 }
             } while (continuePlaying);
         }
@@ -98,9 +98,9 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
     private void waitForPlayerAction() throws InterruptedException
     {
         while (waiting)
-	    {
+	{
             Thread.sleep(100);
-	    }
+	}
         waiting = true;
     }
     
@@ -109,7 +109,7 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
     public void readyToDropChip(int column)
     {
         waiting = false;
-	    this.col = column;
+	this.col = column;
     }
 
     /** Sends a signal to the session, recieves a response from server, and  checks for a win
@@ -118,15 +118,15 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
     private void takeTurn() throws IOException
     {
         toServer.writeInt(MAKE_MOVE);
-	    toServer.writeInt(col);
+	toServer.writeInt(col);
         int column = fromServer.readInt();
-	    System.out.println("The column number recieved is " + column);
+	System.out.println("The column number recieved is " + column);
         setChanged();
         notifyObservers(new Integer(column));
 	
-	    // See if this turn won the game
+	// See if this turn won the game
         int status = fromServer.readInt();
-	    System.out.println("The status number recieved is " + status);
+	System.out.println("The status number recieved is " + status);
 
         if (status == PLAYER1_WON)
         {
@@ -151,14 +151,14 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
     private void receiveInformationFromServer() throws IOException
     {
         int status = fromServer.readInt();
-	    System.out.println("Status: " + status);
+	System.out.println("Status: " + status);
         if (status == PLAYER1_WON)
         {
             if (playerNum == 2)
             {
-		        int column = fromServer.readInt();
-		        setChanged();
-		        notifyObservers(new Integer(column));
+		int column = fromServer.readInt();
+		setChanged();
+		notifyObservers(new Integer(column));
             }
             System.out.println("Player 1 won!");
             setChanged();
@@ -169,9 +169,9 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
         {
             if (playerNum == 1)
             {
-		        int column = fromServer.readInt();
-		        setChanged();
-		        notifyObservers(new Integer(column));
+		int column = fromServer.readInt();
+		setChanged();
+		notifyObservers(new Integer(column));
             }
             System.out.println("Player 2 won!");
             setChanged();
@@ -180,9 +180,9 @@ public class ConnectFourClient extends Observable implements ConnectFourConstant
         }
         else
         {
-	        int column = fromServer.readInt();
+	    int column = fromServer.readInt();
             setChanged();
-	        notifyObservers(new Integer(column));
+	    notifyObservers(new Integer(column));
         }
     }
 }

@@ -37,15 +37,15 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
 
     public static void main(String[] args)
     {
-	    ConnectFourClientGUI window = new ConnectFourClientGUI();
-	    window.pack();
-	    window.setVisible(true);
+	ConnectFourClientGUI window = new ConnectFourClientGUI();
+	window.pack();
+	window.setVisible(true);
     }
 
     public ConnectFourClientGUI()
     {
-	    super("Connect Four");
-	    setDefaultCloseOperation(EXIT_ON_CLOSE);
+	super("Connect Four");
+	setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         // Making the button
 
@@ -74,7 +74,7 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
         
         playerPanel.add(player1Label);
         playerPanel.add(player2Label);
-	    turnPanel.add(infoLabel);
+	turnPanel.add(infoLabel);
         statPanel.add(playerPanel, BorderLayout.NORTH);
         statPanel.add(turnPanel, BorderLayout.SOUTH);
 
@@ -113,7 +113,7 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
         player1 = "";
         player2 = "";
         enterName();
-	    haveChip = false;
+	haveChip = false;
         waitingForPlayer1 = true;
         client = new ConnectFourClient();
         client.addObserver(this);
@@ -129,13 +129,13 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
         {
             String text = (String) obj;
             if (text.contains("won") || text.contains("turn"))
-	        {
-	            infoLabel.setText(text);
-	            for (int i = 1; i < num.length; i++)
-	                num[i].setEnabled(false);
+	    {
+	       infoLabel.setText(text);
+	       for (int i = 1; i < num.length; i++)
+	            num[i].setEnabled(false);
        	    }
             else
-	            infoLabel.setText(text);
+	        infoLabel.setText(text);
         } 
         else if (obj instanceof Integer)
         {
@@ -149,18 +149,18 @@ public class ConnectFourClientGUI extends JFrame implements ConnectFourConstants
 
             if (!haveChip)
             {
-		        if (waitingForPlayer1)
-			        infoLabel.setText("It is Player 2's turn.");
-		        else
-		           infoLabel.setText("It is Player 1's turn.");
-			    haveChip = true;
+		if (waitingForPlayer1)
+		    infoLabel.setText("It is Player 2's turn.");
+		else
+		    infoLabel.setText("It is Player 1's turn.");
+		haveChip = true;
             }
-	        else
-	        {
-	            haveChip = false;
-	            waitingForPlayer1 = !waitingForPlayer1;
-	        }
-	        model.changePlayer();
+	    else
+	    {
+	       haveChip = false;
+	       waitingForPlayer1 = !waitingForPlayer1;
+	    }
+	model.changePlayer();
     	}       
     }
     
